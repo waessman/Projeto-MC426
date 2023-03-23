@@ -21,3 +21,7 @@ Gustavo dos Santos Bernardo Leite | 155657
 Letícia Adrielli Luz | 220208
 
 João Víctor Oliveira Paliares | 248360
+
+João Víctor Oliveira Paliares | 248360
+
+Marinaldo Silva de Angelo Sobrinho | 239700
