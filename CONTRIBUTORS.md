@@ -4,6 +4,6 @@
 
 3 - Letícia Adrielli Luz  (RA220208)
 
-4 - Nome do Fulano  (RAXXXXX)
+4 - Gustavo dos Santos Bernardo Leite  (RA155657)
 
 5 - Nome do Fulano  (RAXXXXX)
