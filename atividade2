@@ -5,6 +5,6 @@ BD: MongoDB
 testes: Mocka
 
 3 features (todas com tela, API e BD):
-- cadastro de login para empresas
-- cadastro de login para usuários
-- login 
+- cadastro de login para empresas (Gustavos e Letícia)
+- cadastro de login para usuários (Gustavos e Letícia)
+- login (João e Naldo)
