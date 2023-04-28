@@ -62,6 +62,7 @@ export default {
     },
   },
   mounted() {
+    document.title = "InclusiHire"
     this.verificaLogin()
   }
 };
