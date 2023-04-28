@@ -1,4 +1,4 @@
-# Projeto (Ainda sem nome)
+# Projeto InclusiHire
 
 ```
 88b           d88    ,ad8888ba,           ,d8     ad888888b,    ad8888ba,  
@@ -19,3 +19,7 @@ Gustavo Alberto de França Waessman | 234726
 Gustavo dos Santos Bernardo Leite | 155657
 
 Letícia Adrielli Luz | 220208
+
+João Víctor Oliveira Paliares | 248360
+
+Marinaldo Silva de Angelo Sobrinho | 239700
