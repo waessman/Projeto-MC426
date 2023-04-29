@@ -6,7 +6,7 @@
                     <v-card-title class="headline text-center custom-card-title">Cadastro de novo usuario</v-card-title>
                     <v-card-text>
                         <v-form @submit.prevent="submitForm">
-                            <v-text-field label="Nome da empresa" v-model="formData.nome" outlined required></v-text-field>
+                            <v-text-field label="Nome do usuário" v-model="formData.nome" outlined required></v-text-field>
                             <v-text-field label="CPF" v-mask="'###.###.###-##'" v-model="formData.documento" outlined
                                 required></v-text-field>
                             <v-text-field label="E-mail" v-model="formData.email" type="email" outlined
