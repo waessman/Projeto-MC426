@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import localStorage from 'localstorage'
 
 Vue.use(VueRouter)
 
@@ -13,15 +14,22 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('../views/LoginView.vue')
   },
   {
-    path: '/cadastro',
-    name: 'cadastro',
-    component: () => import('../views/CadastroView.vue')
+    path: '/usuarioHome',
+    name: 'Home Usuario',
+    component: () => import('../views/UsuarioHomeView.vue')
+  },
+  {
+    path: '/cadastro/usuario',
+    name: 'Home Usuario',
+    component: () => import('../views/CadastroUsuarioView.vue')
+  },
+  {
+    path: '/cadastro/empresa',
+    name: 'Home Usuario',
+    component: () => import('../views/CadastroEmpresaView.vue')
   },
 ]
 
@@ -32,10 +40,25 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+
+
+  if(to.path == "/forceLogin"){
+
+    var tokenDate = new Date()
+    tokenDate.setDate(tokenDate.getDate() + 1)
+    var obj = {
+      expirationDate: tokenDate,  
+      userType: 1
+    }
+    localStorage.token = JSON.stringify(obj)
+    next("/")
+
+  }
+
   //TODO
   //Implementar método para verificar sessão do usuário, se ainda está logado
   // verificarSessao()
-  console.log(router.resolve(to.path).route)
+  //console.log(router.resolve(to.path).route)
   if(router.resolve(to.path).route.matched.length == 0)
     next("/")
   

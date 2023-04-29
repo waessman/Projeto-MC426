@@ -1,15 +1,19 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-btn :ripple="false" text @click="home()">
+      <v-btn :ripple="false" text @click="landing()">
         <h2>InclusiHire</h2>
       </v-btn>
       <v-spacer></v-spacer>
 
       <div v-if="!logado">
-        <v-btn text :ripple="false" @click="cadastro()">
+        <v-btn text :ripple="false" @click="cadastro('usuario')">
           <v-icon class="mr-2">mdi-list-box-outline</v-icon>
-          <span class="mr-2">Cadastre-se</span>
+          <span class="mr-2">Cadastro (Usuario)</span>
+        </v-btn>
+        <v-btn text :ripple="false" @click="cadastro('empresa')">
+          <v-icon class="mr-2">mdi-list-box-outline</v-icon>
+          <span class="mr-2">Cadastro (Empresa)</span>
         </v-btn>
         <v-btn :ripple="false" text @click="login()">
           <v-icon class="mr-2">mdi-account</v-icon>
@@ -33,6 +37,7 @@
 <script>
 
 import router from './router';
+import localStorage from 'localstorage'
 
 export default {
   name: 'App',
@@ -40,25 +45,49 @@ export default {
   data: () => ({
     //
     logado: false,
+    tipoLogado: 0,
   }),
   methods: {
+    loadLocalStorageToken() {
+      const data = localStorage.token;
+      return data ? JSON.parse(data) : null;
+    },
     verificaLogin() {
+      var token = this.loadLocalStorageToken()
 
-      //TODO
-      //Fazer método para verificar sessão no local storage 
-      this.logado = true
+      console.log(token)
+
+      if (token != null && token.expirationDate != null) {
+
+        var tokenDate = new Date(token.expirationDate)
+        var now = new Date();
+
+        if (now <= tokenDate) {
+
+          this.logado = true
+          let tipoLogado = token.userType
+
+          if (tipoLogado == 1)
+            this.$router.push("/usuarioHome")
+          else if (tipoLogado == 2) {
+            this.$router.push("/empresaHome")
+          }
+
+        }
+      }
     },
     login() {
       this.$router.push("/login")
     },
-    home() {
+    landing() {
       this.$router.push("/")
     },
-    cadastro() {
-      this.$router.push("/cadastro")
+    cadastro(tipo) {
+      this.$router.push("/cadastro/" + tipo)
     },
-    sair(){
+    sair() {
       this.logado = false
+      this.landing()
     },
   },
   mounted() {
