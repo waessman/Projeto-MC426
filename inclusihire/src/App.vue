@@ -27,6 +27,7 @@
     <v-main>
       <router-view />
     </v-main>
+    <notifications group="foo" />
   </v-app>
 </template>
 
