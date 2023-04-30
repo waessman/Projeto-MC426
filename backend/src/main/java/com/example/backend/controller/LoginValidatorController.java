@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,9 +35,9 @@ public class LoginValidatorController {
     }
 
     @Operation(summary = "Login Validator", description = "Validate login request")
-    @GetMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = { @ApiResponse(responseCode = "400", description = "Bad Request Error") })
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Void> createClient(@RequestBody final LoginRequest request){
         logger.debug("Start login validation");
 
