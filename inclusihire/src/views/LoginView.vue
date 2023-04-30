@@ -7,12 +7,12 @@
           <v-card-text>
             <v-form @submit.prevent="login">
               <v-text-field
-                v-model="username"
+                v-model="credentials.username"
                 label="Nome do usuário"
                 outlined
               ></v-text-field>
               <v-text-field
-                v-model="password"
+                v-model="credentials.password"
                 label="Senha"
                 outlined
                 type="password"
@@ -27,21 +27,57 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      username: "",
-      password: "",
+      credentials: {
+        username: "",
+        password: ""
+      }
     };
   },
   methods: {
     login() {
-      // implementar lógica de login!
-      // por enquando só imprime o usuário e senha no console
-      console.log("Usuário:", this.username, "Senha:", this.password);
-      this.username = "";
-      this.password = "";
+      // logica do login
+      if (this.validarCampos()) {
+                axios.post('http://localhost:8080/api/login', this.credentials)
+                    .then((response) => {
+                        console.log(response);
+                        if (response && response.ok) {
+                            this.$notify({
+                                group: 'foo',
+                                title: "Sucesso",
+                                text: "Login efetuado com sucesso",
+                                type: 'error'
+                            });
+                            this.$router.push("/usuarioHome")
+                        }
+                    })
+                    .catch((error) => {
+                        this.$notify({
+                            group: 'foo',
+                            title: "Erro",
+                            text: "Não foi possível efetuar o login",
+                            type: 'error'
+                        });
+                        console.log(error);
+                    });
+            }
     },
+    validarCampos(){
+      if (!this.credentials.username || !this.credentials.password){
+        this.$notify({
+          group: 'foo',
+          title: "Preencha todos os campos",
+          text: "Todos os campos são obrigatórios",
+          type: 'error'
+        })
+        return false;
+      }
+      return true;
+    }
   },
 };
 </script>
