@@ -42,7 +42,7 @@ export default {
     login() {
       // logica do login
       if (this.validarCampos()) {
-                axios.post('http://localhost:8080/api/login', this.credentials)
+                axios.post('http://localhost:8082/login', this.credentials)
                     .then((response) => {
                         console.log(response);
                         if (response && response.ok) {
