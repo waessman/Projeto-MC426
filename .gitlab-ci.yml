@@ -3,13 +3,17 @@ stages:
   - test
 
 java-build:
-  image: maven:3.8-openjdk-11
+  image: 
+    name: maven:3.8-openjdk-11
+    pull_policy: if-not-present
   stage: build
   script:
     - mvn package -DskipTests=true
 
 java-test:
-  image: maven:3.8-openjdk-11
+  image: 
+    name: maven:3.8-openjdk-11
+    pull_policy: if-not-present
   stage: test
   script:
     - mvn clean verify
