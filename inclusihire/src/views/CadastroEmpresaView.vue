@@ -53,7 +53,7 @@ export default {
 
             // implementar a lógica de envio do formulário aqui
             if (this.validarCampos()) {
-                axios.post('http://localhost:8080/api/criar/empresa', this.formData)
+                axios.post('http://localhost:8080/empresa/cadastro', this.formData)
                     .then((response) => {
                         console.log(response);
                         if (response && response.ok) {
