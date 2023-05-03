@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors')
-const port = 4000;
+const port = 8080;
 
-const exampleRouter = require('./scr/routes/example_route')
+const usuarioRouter = require('./scr/routes/usuario_route')
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
   
 
 /*Routes*/
-app.use('/example', exampleRouter); // this example could be seen on Cadastro Usuario frontend page
+app.use('/usuario', usuarioRouter); 
 
   
   /* Starts Express Server */
