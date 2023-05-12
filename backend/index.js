@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors')
+require('dotenv').config();
 const port = 8080;
 
 const empresaRouter = require('./scr/routes/empresa_route')
@@ -27,3 +28,5 @@ app.use('/empresa', empresaRouter);
   app.listen(process.env.PORT || port, 
     () => console.log(`App listening at http://localhost:${port}`)
   );
+
+  module.exports = app

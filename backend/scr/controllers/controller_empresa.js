@@ -11,7 +11,7 @@ async function empresaCadastro(req, res){
     }
     else
     {
-        return res.status(404).json({
+        return res.status(200).json({
             ok: false,
             err_msg: result,
         });

@@ -1,6 +1,7 @@
 
-async function insereNovaEmpresa(nome, documento, email, senha){
+async function insereNovaEmpresa(nome, documento, email, senha, confirmarSenha){
     const client = require('../configs/db.configs');
+    var db = client.db(process.env.DB_NAME);
     if(!nome){
       return "Nome não pode ser vazio";
     }
@@ -20,31 +21,23 @@ async function insereNovaEmpresa(nome, documento, email, senha){
       return "Senhas não coincidem";
     }
 
-    const usuario = await getUserbyEmail(email);
-    if (usuario != false){
-      return "Email ja cadastrado";
+    var usuario = await getUserbyEmail(email);
+    if (usuario){
+      return "E-mail já cadastrado";
     }
-    
-    const db = await client.db('inclusihire');
+
     const novaEmpresa = { email: email, nome: nome, documento: documento, senha: senha, tipo: 1};
-    await db.collection('users').insertOne(novaEmpresa, function(err, result) {
-      console.log(result.ops[0]);
-      return true;
-    }).catch((err) => {
-      console.log(err);
-      return err;
-   });
+     const result = await db.collection('users').insertOne(novaEmpresa);
+     return result.acknowledged;
     
 }
 
 async function getUserbyEmail(email){
   const client = require('../configs/db.configs');
-  
-  const db = await client.db('inclusihire');
-  await db.collection('users').find({email: email}, function(err, result){
-    if (err) return err;
-    return result[0];
-  });
+  const db = client.db(process.env.DB_NAME);
+  const query = { "email": email };
+  const result = await db.collection('users').find(query).toArray();
+  return result[0];
   
 }
 
