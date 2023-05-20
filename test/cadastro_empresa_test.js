@@ -1,27 +1,46 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const expect = chai.expect;
+const { MongoClient } = require('mongodb');
 
 chai.use(chaiHttp);
 
 
+
+
 describe('Teste de cadastro de usuário', function() {
-    it('Deve cadastrar um novo usuário', function(done) {
-      const usuario = {
-        nome: 'João da Silva',
-        documento: '1111111111',
-        email: 'joao.silva@teste.com',
-        senha: 'senhateste',
-        confirmarSenha: 'senhateste'
-      };
+  let db;
+  //Antes dos testes conectar com o bd
+  before((done) =>{
+    const client = new MongoClient('mongodb+srv://inclusihire:MC426_inclusihire@cluster0.qmmz34t.mongodb.net/testy', { useNewUrlParser: true, useUnifiedTopology: true });
+    db = client.db('inclusihire_test');
+    done();
+  })
   
-      chai.request('http://localhost:'+process.env.PORT)
-        .post('/empresa/cadastro')
+  beforeEach(async function () {
+    if (this.currentTest.parent.tests.indexOf(this.currentTest) === 0) {
+      // Excluir todos os dados da tabela 'users' apenas para o primeiro teste
+      await db.collection('users').deleteMany({});
+    }
+  });
+
+    it('Deve cadastrar um novo usuário', function(done) {
+      const usuario = ({
+        "nome": 'João da Silva',
+        "documento": '1111111111',
+        "email": 'joao.silva@teste.com',
+        "senha": 'senhateste',
+        "confirmarSenha": 'senhateste'
+      });
+  
+      chai.request('http://localhost:8080/')
+        .post('empresa/cadastro')
         .send(usuario)
         .end(function(err, res) {
-          expect(res).to.have.status(200);
-          expect(res.body).to.be.an('object');
-          expect(res.body.ok).to.be.true;
+          const status = res.status;
+          expect(status).to.be.equal(200);
+          const ok = res.body.ok;
+          expect(ok).to.be.equal(true);
           done();
         });
     }).timeout(1000);
@@ -35,14 +54,16 @@ describe('Teste de cadastro de usuário', function() {
         confirmarSenha: 'senhateste'
       };
   
-      chai.request('http://localhost:'+process.env.PORT)
-        .post('/empresa/cadastro')
+      chai.request('http://localhost:8080/')
+        .post('empresa/cadastro')
         .send(usuario)
         .end(function(err, res) {
-          expect(res).to.have.status(200);
-          expect(res.body).to.be.an('object');
-          expect(res.body.ok).to.be.false;
-          expect(res.body.err_msg).to.be.equal("E-mail já cadastrado");
+          const status = res.status;
+          expect(status).to.be.equal(200);
+          const ok = res.body.ok;
+          expect(ok).to.be.equal(false);
+          const msg = res.body.err_msg
+          expect(msg).to.be.equal("E-mail já cadastrado");
           done();
         });
     }).timeout(1000);
@@ -56,16 +77,17 @@ describe('Teste de cadastro de usuário', function() {
         confirmarSenha: 'senhateste1'
       };
   
-      chai.request('http://localhost:'+process.env.PORT)
-        .post('/empresa/cadastro')
+      chai.request('http://localhost:8080/')
+        .post('empresa/cadastro')
         .send(usuario)
         .end(function(err, res) {
-          expect(res).to.have.status(200);
-          expect(res.body).to.be.an('object');
-          expect(res.body.ok).to.be.false;
-          expect(res.body.err_msg).to.be.equal("Senhas não coincidem");
+          const status = res.status;
+          expect(status).to.be.equal(200);
+          const ok = res.body.ok;
+          expect(ok).to.be.equal(false);
+          const msg = res.body.err_msg
+          expect(msg).to.be.equal("Senhas não coincidem");
           done();
         });
     }).timeout(1000);
   });
-  
