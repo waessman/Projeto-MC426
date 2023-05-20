@@ -7,6 +7,7 @@ const port = 8080;
 
 const empresaRouter = require('./scr/routes/empresa_route')
 
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(
