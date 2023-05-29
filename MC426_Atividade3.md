@@ -49,7 +49,7 @@ Esse aplicativo mobile tem como objetivo juntar pessoas com deficiência visual 
 
 Épicos e User Stories
 
-#**Épico 1 (cadastrar vagas de emprego)**
+# **Épico 1 (cadastrar vagas de emprego)**
 Como representante de uma empresa, eu gostaria de abrir um processo de candidatura a emprego. Eu pretendo abrir processos novos para a candidatura e visualizar processos em aberto.
 
 - **Story 1.a:**
