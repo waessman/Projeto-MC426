@@ -48,6 +48,7 @@ Pensando para o lado mais inclusivo, o Hand Talk é uma plataforma que tem como 
 Esse aplicativo mobile tem como objetivo juntar pessoas com deficiência visual à voluntários que possam auxiliá-los em tarefas complexas. É um bom exemplo de uma abordagem mais construtiva e direta da necessidade de ter mais pessoas auxiliando na inclusão, principalmente em tarefas que são vistas como mais básicas mas podem ser complexas para cegos. Uma simples chamada de vídeo já pode ajudar muito alguém.
 
 Épicos e User Stories
+
 #**Épico 1 (cadastrar vagas de emprego)**
 Como representante de uma empresa, eu gostaria de abrir um processo de candidatura a emprego. Eu pretendo abrir processos novos para a candidatura e visualizar processos em aberto.
 
