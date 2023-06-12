@@ -1,27 +1,147 @@
 <template>
-    <div class="">
-        <h1>Pagina de cadastro de usuario, importar aqui os componentes, seguir padrão da home</h1>
-        <h2>Exemplo: {{ message }}</h2>
-    </div>
+    <v-container class="mt-4">
+        <v-row justify="center">
+            <v-col cols="12" sm="8" md="6">
+                <v-card>
+                    <v-card-title class="headline text-center custom-card-title">Cadastro de novo usuario</v-card-title>
+                    <v-card-text>
+                        <v-form @submit.prevent="submitForm">
+                            <v-text-field label="Nome do usuário" v-model="formData.nome" outlined required></v-text-field>
+                            <v-text-field label="CPF" v-mask="'###.###.###-##'" v-model="formData.documento" outlined
+                                required></v-text-field>
+                            <v-text-field label="E-mail" v-model="formData.email" type="email" outlined
+                                required></v-text-field>
+                            <v-text-field label="Senha" v-model="formData.senha" type="password" outlined
+                                required></v-text-field>
+                            <v-text-field label="Confirmar senha" v-model="formData.confirmarSenha" type="password" outlined
+                                required></v-text-field>
+                            <!-- <v-alert v-if="hasError" type="error">
+                                {{ errorMessage }}
+                            </v-alert> -->
+                            <v-btn type="submit" color="primary" block>Cadastrar</v-btn>
+                        </v-form>
+                    </v-card-text>
+
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
   
 <script>
+
 import axios from 'axios';
 
 export default {
-  data() {
-    return {
-      message: '',
-    };
-  },
-  mounted() {
-    axios.get('http://localhost:4000/example')
-      .then(response => {
-        this.message = response.data.msg;
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  },
-};
+    data() {
+        return {
+            hasError: false,
+            formData: {
+                errorMessage: '',
+                nome: '',
+                documento: '',
+                email: '',
+                senha: '',
+                confirmarSenha: ''
+            },
+        }
+    },
+    methods: {
+        submitForm() {
+            this.hasError = false
+            this.errorMessage = ''
+
+            // implementar a lógica de envio do formulário aqui
+            if (this.validarCampos()) {
+                axios.post('http://localhost:8080/api/criar/usuario', this.formData)
+                    .then((response) => {
+                        console.log(response);
+                        if (response && response.ok) {
+                            this.$notify({
+                                group: 'foo',
+                                title: "Sucesso",
+                                text: "Conta criada com sucesso",
+                                type: 'error'
+                            });
+                            this.$router.push("/login")
+                        }
+                    })
+                    .catch((error) => {
+                        this.$notify({
+                            group: 'foo',
+                            title: error.name,
+                            text: error.message,
+                            type: 'error'
+                        });
+                        console.log(error);
+                    });
+                // enviar dados
+            }
+        },
+        validarCampos() {
+            if (!this.formData.nome || !this.formData.documento || !this.formData.email || !this.formData.senha || !this.formData.confirmarSenha) {
+                this.$notify({
+                    group: 'foo',
+                    title: 'Dados inconsistentes',
+                    text: 'Todos os campos são obrigatórios.',
+                    type: 'error'
+                });
+                return false;
+            } else if (this.formData.senha !== this.formData.confirmarSenha) {
+                this.$notify({
+                    group: 'foo',
+                    title: 'Dados inconsistentes',
+                    text: 'As senhas não coincidem.',
+                    type: 'error'
+                });
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+}
 </script>
+  
+<style scoped>
+/* estilos para o formulário */
+.v-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.v-text-field {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.v-btn {
+    margin-top: 20px;
+}
+
+/* estilos para o contêiner */
+.v-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.custom-card-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+/* estilos para dispositivos móveis */
+@media (max-width: 600px) {
+    .v-card {
+        width: 90%;
+        max-width: 400px;
+    }
+}
+</style>

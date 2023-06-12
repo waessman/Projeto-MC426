@@ -1,12 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
 require('dotenv').config();
 const port = 8080;
 
-const empresaRouter = require('./scr/routes/empresa_route')
-
+const empresaRouter = require('./scr/routes/empresa_route');
+const loginRouter = require('./scr/routes/login_route');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 
 /*Routes*/
 app.use('/empresa', empresaRouter); 
+app.use('/', loginRouter);
 
   
   /* Starts Express Server */

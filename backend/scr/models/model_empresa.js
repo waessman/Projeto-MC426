@@ -27,8 +27,8 @@ async function insereNovaEmpresa(nome, documento, email, senha, confirmarSenha){
     }
 
     const novaEmpresa = { email: email, nome: nome, documento: documento, senha: senha, tipo: 1};
-     const result = await db.collection('users').insertOne(novaEmpresa);
-     return result.acknowledged;
+    const result = await db.collection('users').insertOne(novaEmpresa);
+    return result.acknowledged;
     
 }
 
