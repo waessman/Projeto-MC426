@@ -7,6 +7,7 @@ const port = 8080;
 
 const empresaRouter = require('./scr/routes/empresa_route');
 const loginRouter = require('./scr/routes/login_route');
+const usuarioRouter = require('./scr/routes/usuario_route')
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 /*Routes*/
 app.use('/empresa', empresaRouter); 
 app.use('/', loginRouter);
+app.use('/usuario', usuarioRouter); 
 
   
   /* Starts Express Server */

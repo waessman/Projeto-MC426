@@ -6,7 +6,7 @@
                     <v-card-title class="headline text-center custom-card-title">Cadastro de novo usuario</v-card-title>
                     <v-card-text>
                         <v-form @submit.prevent="submitForm">
-                            <v-text-field label="Nome do usuário" v-model="formData.nome" outlined required></v-text-field>
+                            <v-text-field label="Nome Completo" v-model="formData.nome" outlined required></v-text-field>
                             <v-text-field label="CPF" v-mask="'###.###.###-##'" v-model="formData.documento" outlined
                                 required></v-text-field>
                             <v-text-field label="E-mail" v-model="formData.email" type="email" outlined
@@ -53,15 +53,15 @@ export default {
 
             // implementar a lógica de envio do formulário aqui
             if (this.validarCampos()) {
-                axios.post('http://localhost:8080/api/criar/usuario', this.formData)
+                axios.post('http://localhost:8080/usuario/cadastro', this.formData)
                     .then((response) => {
                         console.log(response);
-                        if (response && response.ok) {
+                        if (response && response.data.ok) {
                             this.$notify({
                                 group: 'foo',
                                 title: "Sucesso",
-                                text: "Conta criada com sucesso",
-                                type: 'error'
+                                text: "Conta criada com sucesso, faça seu login",
+                                type: 'info'
                             });
                             this.$router.push("/login")
                         }
@@ -70,7 +70,7 @@ export default {
                         this.$notify({
                             group: 'foo',
                             title: error.name,
-                            text: error.message,
+                            text: error.response ? error.response.data.error : error.message,
                             type: 'error'
                         });
                         console.log(error);
