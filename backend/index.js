@@ -1,9 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
+require('dotenv').config();
 const port = 8080;
 
+const empresaRouter = require('./scr/routes/empresa_route');
+const loginRouter = require('./scr/routes/login_route');
 const usuarioRouter = require('./scr/routes/usuario_route')
 
 app.use(cors());
@@ -20,6 +23,8 @@ app.get('/', (req, res) => {
   
 
 /*Routes*/
+app.use('/empresa', empresaRouter); 
+app.use('/', loginRouter);
 app.use('/usuario', usuarioRouter); 
 
   
@@ -27,3 +32,5 @@ app.use('/usuario', usuarioRouter);
   app.listen(process.env.PORT || port, 
     () => console.log(`App listening at http://localhost:${port}`)
   );
+
+  module.exports = app

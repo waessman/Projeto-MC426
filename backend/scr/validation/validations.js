@@ -4,11 +4,11 @@ function validaEmail(email) {
 }
 
 const client = require('../configs/db.configs');
-const db = client.db('inclusihire');
+const db = client.db(process.env.DB_NAME);
 
 async function verificaEmailDuplicado(email){
     
-    const usuarioExistente = await db.collection('login').findOne({ email: email });
+    const usuarioExistente = await db.collection('users').findOne({ email: email });
     if (usuarioExistente)
         return true
     return false
