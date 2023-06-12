@@ -7,12 +7,12 @@
           <v-card-text>
             <v-form @submit.prevent="login">
               <v-text-field
-                v-model="credentials.username"
-                label="Nome do usuário"
+                v-model="credentials.email"
+                label="E-mail do usuário"
                 outlined
               ></v-text-field>
               <v-text-field
-                v-model="credentials.password"
+                v-model="credentials.senha"
                 label="Senha"
                 outlined
                 type="password"
@@ -33,8 +33,8 @@ export default {
   data() {
     return {
       credentials: {
-        username: "",
-        password: ""
+        email: "",
+        senha: ""
       }
     };
   },
@@ -42,10 +42,10 @@ export default {
     login() {
       // logica do login
       if (this.validarCampos()) {
-                axios.post('http://localhost:8082/login', this.credentials)
+                axios.post('http://localhost:8080/login', this.credentials)
                     .then((response) => {
                         console.log(response);
-                        if (response && response.ok) {
+                        if (response && response.data.ok) {
                             this.$notify({
                                 group: 'foo',
                                 title: "Sucesso",
@@ -53,6 +53,17 @@ export default {
                                 type: 'error'
                             });
                             this.$router.push("/usuarioHome")
+                        }
+                        else{
+                          if(! response.data.ok){
+                            console.log(response);
+                            this.$notify({
+                            group: 'foo',
+                            title: "Erro",
+                            text: response.data.err_msg,
+                            type: 'error'
+                        });
+                          }
                         }
                     })
                     .catch((error) => {
@@ -67,7 +78,7 @@ export default {
             }
     },
     validarCampos(){
-      if (!this.credentials.username || !this.credentials.password){
+      if (!this.credentials.email || !this.credentials.senha){
         this.$notify({
           group: 'foo',
           title: "Preencha todos os campos",
