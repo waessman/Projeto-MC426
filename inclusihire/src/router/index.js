@@ -31,6 +31,16 @@ const routes = [
     name: 'Home Usuario',
     component: () => import('../views/CadastroEmpresaView.vue')
   },
+  {
+    path: '/empresaHome',
+    name: 'Home Empresa',
+    component: () => import('../views/EmpresaHomeView.vue')
+  },
+  {
+    path: '/AdicionarProcesso',
+    name: 'Nova Vaga',
+    component: () => import('../views/AdicionarProcessoView.vue')
+  },
 ]
 
 const router = new VueRouter({
