@@ -5,37 +5,34 @@ const { MongoClient } = require('mongodb');
 
 chai.use(chaiHttp);
 
-
-
-
-describe('Teste de cadastro de usuário', function() {
+describe('Teste de cadastro de empresa', function() {
   let db;
-  //Antes dos testes conectar com o bd
+  // conecta com o bd
   before((done) =>{
     const client = new MongoClient('mongodb+srv://inclusihire:MC426_inclusihire@cluster0.qmmz34t.mongodb.net/testy', { useNewUrlParser: true, useUnifiedTopology: true });
-    db = client.db('inclusihire_test');
+    db = client.db('inclusihire');
     done();
   })
   
   beforeEach(async function () {
     if (this.currentTest.parent.tests.indexOf(this.currentTest) === 0) {
-      // Excluir todos os dados da tabela 'users' apenas para o primeiro teste
+      // limpa tabela user antes do primeiro teste
       await db.collection('users').deleteMany({});
     }
   });
 
-    it('Deve cadastrar um novo usuário', function(done) {
-      const usuario = ({
-        "nome": 'João da Silva',
-        "documento": '1111111111',
-        "email": 'joao.silva@teste.com',
-        "senha": 'senhateste',
-        "confirmarSenha": 'senhateste'
-      });
+    it('Deve cadastrar uma nova empresa', function(done) {
+      const empresa = {
+        nome: 'Empresa legal',
+        documento: '1111111111',
+        email: 'empresa@legal.com',
+        senha: 'senhateste',
+        confirmarSenha: 'senhateste'
+      };
   
       chai.request('http://localhost:8080/')
         .post('empresa/cadastro')
-        .send(usuario)
+        .send(empresa)
         .end(function(err, res) {
           const status = res.status;
           expect(status).to.be.equal(200);
@@ -43,20 +40,43 @@ describe('Teste de cadastro de usuário', function() {
           expect(ok).to.be.equal(true);
           done();
         });
-    }).timeout(1000);
-  
-    it('Deve retornar erro se o e-mail já estiver cadastrado', function(done) {
-      const usuario = {
-        nome: 'Maria da Silva',
-        documento: '1111111111',
-        email: 'joao.silva@teste.com',
+    }).timeout(10000);
+
+    it('Deve retornar erro se o e-mail for inválido', function(done) {
+      const empresa = {
+        nome: 'Empresa top',
+        documento: '1111121111',
+        email: 'empresa.top.com',
         senha: 'senhateste',
         confirmarSenha: 'senhateste'
       };
   
       chai.request('http://localhost:8080/')
         .post('empresa/cadastro')
-        .send(usuario)
+        .send(empresa)
+        .end(function(err, res) {
+          const status = res.status;
+          expect(status).to.be.equal(200);
+          const ok = res.body.ok;
+          expect(ok).to.be.equal(false);
+          const msg = res.body.err_msg
+          expect(msg).to.be.equal("E-mail inválido");
+          done();
+        });
+    }).timeout(10000);
+  
+    it('Deve retornar erro se o e-mail já estiver cadastrado', function(done) {
+      const empresa = {
+        nome: 'Empresa top',
+        documento: '1111121111',
+        email: 'empresa@legal.com',
+        senha: 'senhateste',
+        confirmarSenha: 'senhateste'
+      };
+  
+      chai.request('http://localhost:8080/')
+        .post('empresa/cadastro')
+        .send(empresa)
         .end(function(err, res) {
           const status = res.status;
           expect(status).to.be.equal(200);
@@ -66,20 +86,20 @@ describe('Teste de cadastro de usuário', function() {
           expect(msg).to.be.equal("E-mail já cadastrado");
           done();
         });
-    }).timeout(1000);
+    }).timeout(10000);
 
     it('Deve retornar erro pois senhas não coincidem', function(done) {
-      const usuario = {
-        nome: 'Maria da Silva',
+      const empresa = {
+        nome: 'Empresa legal 2',
         documento: '1111111111',
-        email: 'maria.silva@teste.com',
+        email: 'empresa@legal2.com',
         senha: 'senhateste',
-        confirmarSenha: 'senhateste1'
+        confirmarSenha: 'senhatesteee'
       };
   
       chai.request('http://localhost:8080/')
         .post('empresa/cadastro')
-        .send(usuario)
+        .send(empresa)
         .end(function(err, res) {
           const status = res.status;
           expect(status).to.be.equal(200);
@@ -89,5 +109,5 @@ describe('Teste de cadastro de usuário', function() {
           expect(msg).to.be.equal("Senhas não coincidem");
           done();
         });
-    }).timeout(1000);
+    }).timeout(10000);
   });

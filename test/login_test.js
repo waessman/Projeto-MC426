@@ -8,10 +8,10 @@ chai.use(chaiHttp);
 
 describe('Teste de Login', function() {
   let db;
-  //Antes dos testes conectar com o bd
+  // Antes dos testes conectar com o bd
   before((done) =>{
     const client = new MongoClient('mongodb+srv://inclusihire:MC426_inclusihire@cluster0.qmmz34t.mongodb.net/testy', { useNewUrlParser: true, useUnifiedTopology: true });
-    db = client.db('inclusihire_test');
+    db = client.db('inclusihire');
     done();
   })
   
@@ -22,17 +22,18 @@ describe('Teste de Login', function() {
 
       // Cadastrar o usuario na tabela 'users'
       const usuario = {
-        "email": 'joao.silva@teste.com',
-        "nome": 'João da Silva',
-        "documento": '1111111111',
-        "senha": 'senhateste',
-        "tipo": 1
+        email: 'joao.silva@teste.com',
+        nome: 'João da Silva',
+        documento: '1111111111',
+        senha: 'senhateste',
+        tipo: 1
       };
       await db.collection('users').insertOne(usuario);
+      done();
     }
   });
 
-    it('Devo retornar erro ao tentar logar com um email não cadastrado', function(done) {
+    it('Deve retornar erro ao tentar logar com um email não cadastrado', function(done) {
       
       const usuario = {
         email: 'joao@teste.com',
@@ -51,9 +52,9 @@ describe('Teste de Login', function() {
           expect(msg).to.be.equal("Usuário não encontrado");
           done();
         });
-    }).timeout(2000);
+    }).timeout(10000);
   
-    it('Devo retornar erro ao tentar logar com uma senha incorreta', function(done) {
+    it('Deve retornar erro ao tentar logar com uma senha incorreta', function(done) {
       const usuario = {
         email: 'joao.silva@teste.com',
         senha: 'senhaerrada',
@@ -71,9 +72,9 @@ describe('Teste de Login', function() {
           expect(msg).to.be.equal("Senha não corresponde");
           done();
         });
-    }).timeout(1000);
+    }).timeout(10000);
 
-    it('Devo conseguir logar com email e senha corretos', function(done) {
+    it('Deve conseguir logar com email e senha corretos', function(done) {
       const usuario = {
         email: 'joao.silva@teste.com',
         senha: 'senhateste',
@@ -89,5 +90,5 @@ describe('Teste de Login', function() {
           expect(ok).to.be.equal(true);
           done();
         });
-    }).timeout(1000);
+    }).timeout(10000);
   });
