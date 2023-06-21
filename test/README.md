@@ -13,5 +13,5 @@ Comente a linha 4 no arquivo settup.env e descomente a linha 5
 
 ## RUN
 ```
-mocha .\file de teste
+mocha --exit --timeout 10000
 ```

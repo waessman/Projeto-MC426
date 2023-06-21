@@ -10,7 +10,7 @@ describe('Teste de cadastro de empresa', function() {
   // conecta com o bd
   before((done) =>{
     const client = new MongoClient('mongodb+srv://inclusihire:MC426_inclusihire@cluster0.qmmz34t.mongodb.net/testy', { useNewUrlParser: true, useUnifiedTopology: true });
-    db = client.db('inclusihire');
+    db = client.db('inclusihire_test');
     done();
   })
   
