@@ -110,6 +110,13 @@ async function GetById(req, res){
     }
 }
 
+async function User_get_processos(req, res){
+    
+    const result = await processoModel.processos_filtro(req.body.filtro);
+    return res.status(200).json(result);
+        
+}
+
 module.exports = {
     Criar_processo,
     Deletar_processo,
@@ -117,6 +124,7 @@ module.exports = {
     Editar_processo,
     Get_processos_ativos,
     GetById,
-    Fechar_processo
+    Fechar_processo,
+    User_get_processos,
   };
 

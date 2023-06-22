@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const usuarioController = require('../controllers/controller_cadastro'); 
+const processController = require('../controllers/controller_processos'); 
+const checkJWT = require('../middlewares/jwt.middleware').checkJWT;
 
 /**
  * @swagger
@@ -38,5 +40,6 @@ const usuarioController = require('../controllers/controller_cadastro');
  *          description: ok false | err_msg
  */
 router.post('/cadastro', usuarioController.usuarioCadastro);
+router.get('/get_processo', checkJWT, processController.User_get_processos); // /usuario/get_processo
 
 module.exports = router;

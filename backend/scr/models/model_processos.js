@@ -63,6 +63,28 @@ async function editar(id, nome, descricao, link_externo, requisitos, local, cont
         });
 }
 
+
+async function processos_filtro(filtro){
+    if (filtro == "" || filtro == null){
+        const result = await db.collection('process').find({ status: 'Aberto'}).sort({ _id: -1 }).toArray();
+        return {ok: true, processos: result}
+    }
+    else{
+        const ex  = new RegExp(filtro);
+        const busca = {
+            $or: [
+                {nome: ex, status: 'Aberto'},
+                {descricao: ex, status: 'Aberto'},
+            ]
+        };
+        const result = await db.collection('process').find(busca).sort({ _id: -1 }).toArray();
+        return {ok: true, processos: result}
+    }
+    
+    
+    
+       
+}
 module.exports = {
     criar,
     deletar,
@@ -70,5 +92,6 @@ module.exports = {
     todos_processos_ativos_empresa,
     detalhes_processo_empresa,
     editar,
-    fechar
+    fechar,
+    processos_filtro
   };
