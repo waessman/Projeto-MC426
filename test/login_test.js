@@ -26,7 +26,7 @@ describe('Teste de Login', function() {
         nome: 'João da Silva',
         documento: '1111111111',
         senha: 'senhateste',
-        tipo: 1
+        tipo: 2
       };
       await db.collection('users').insertOne(usuario);
     }
