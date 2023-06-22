@@ -111,9 +111,14 @@ async function GetById(req, res){
 
 async function User_get_processos(req, res){
     
-    const result = await processoModel.processos_filtro(req.body.filtro);
+    const result = await processoModel.processos_filtro(req.body.body.filtro);
     return res.status(200).json(result);
         
+}
+
+async function user_candidatar(req, res){
+    const result = await processoModel.candidatar(req.body.usuario, req.body.vaga)
+    return res.status(200).json(result)
 }
 
 module.exports = {
@@ -125,5 +130,6 @@ module.exports = {
     GetById,
     Fechar_processo,
     User_get_processos,
+    user_candidatar,
   };
 
