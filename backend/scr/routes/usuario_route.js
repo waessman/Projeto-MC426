@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const usuarioController = require('../controllers/controller_cadastro'); 
-const processController = require('../controllers/controller_processos'); 
+const processController = require('../controllers/controller_processos');
 const checkJWT = require('../middlewares/jwt.middleware').checkJWT;
 
 /**
@@ -40,6 +40,7 @@ const checkJWT = require('../middlewares/jwt.middleware').checkJWT;
  *          description: ok false | err_msg
  */
 router.post('/cadastro', usuarioController.usuarioCadastro);
-router.get('/get_processo', checkJWT, processController.User_get_processos); // /usuario/get_processo
+router.post('/get_processo', checkJWT, processController.User_get_processos); // /usuario/get_processo
+router.post('/candidatar', processController.user_candidatar)
 
 module.exports = router;
