@@ -4,8 +4,13 @@ async function empresaCadastro(req, res){
 
     const result = await modelo.insereNovoUsuario(req.body.nome, req.body.documento,
          req.body.email, req.body.senha, req.body.confirmarSenha, 1);
-    
-    return res.status(200).json(result);       
+    if(result.ok){
+        return res.status(201).json(result); 
+    }
+    else{
+        return res.status(404).json(result); 
+    }
+          
 }
 
 async function usuarioCadastro(req, res){
@@ -13,7 +18,13 @@ async function usuarioCadastro(req, res){
     const result = await modelo.insereNovoUsuario(req.body.nome, req.body.documento,
          req.body.email, req.body.senha, req.body.confirmarSenha, 2);
     
-    return res.status(200).json(result);       
+    if(result.ok){
+        return res.status(201).json(result); 
+    }
+    else{
+        return res.status(404).json(result); 
+    }
+                
 }
 
 module.exports = {

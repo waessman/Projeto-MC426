@@ -7,9 +7,9 @@ async function Login(req, res){
     if (result.ok){
         const token = await createJWT(result.user.email);
         return res.status(200).json({ok: true,
-            token: token, tipo: result.user.tipo});
+            token: token, user: result.user});
     }
-    return res.status(200).json(result);
+    return res.status(404).json(result);
     
     
 }

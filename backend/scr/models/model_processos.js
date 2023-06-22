@@ -22,6 +22,12 @@ async function deletar(id, empresa){
     return {ok: true}
 }
 
+async function fechar(id, empresa){
+    const objectId = new ObjectId(id);
+    await db.collection('process').findOneAndUpdate({ _id: objectId, empresa_id: empresa },  { $set : { status: 'Encerrado'} });
+    return {ok: true}
+}
+
 async function todos_processos_empresa(empresa){
     const result = await db.collection('process').find({ empresa_id: empresa }).toArray();
     
@@ -29,14 +35,40 @@ async function todos_processos_empresa(empresa){
        
 }
 
-async function get_by_id(id){
-    const result = await db.collection('process').findOne({_id: new ObjectId(id)});
-    return {ok: true, data: result}
+async function todos_processos_ativos_empresa(empresa){
+    const result = await db.collection('process').find({ empresa_id: empresa, status: 'Aberto'}).toArray();
+    
+    return {ok: true, processos: result}
+       
+}
+
+async function detalhes_processo_empresa(empresa, id){
+    const objectId = new ObjectId(id);
+    const result = await db.collection('process').findOne({ empresa_id: empresa, _id: objectId});
+    
+    return {ok: true, processo: result}
+       
+}
+
+async function editar(id, nome, descricao, link_externo, requisitos, local, contato, empresa, status){
+    const objectId = new ObjectId(id);
+    await db.collection('process').findOneAndUpdate({ _id: objectId, empresa_id: empresa },  { $set : {nome: nome, descricao: descricao,
+         link_externo: link_externo, requisitos: requisitos, local: local, contato: contato, status: status }}, {new: true}, (err, doc) => {
+            if (err) {
+                return {ok: false};
+            }
+            else{
+                return {ok: true};
+            }
+        });
 }
 
 module.exports = {
     criar,
     deletar,
     todos_processos_empresa,
-    get_by_id,
+    todos_processos_ativos_empresa,
+    detalhes_processo_empresa,
+    editar,
+    fechar
   };
