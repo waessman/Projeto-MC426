@@ -3,23 +3,23 @@
         <v-row justify="center">
             <v-col cols="12" sm="8" md="6">
                 <v-card>
-                    <v-card-title class="headline text-center custom-card-title">Cadastro de nova empresa</v-card-title>
+                    <v-card-title class="headline text-center custom-card-title">Nova Vaga</v-card-title>
                     <v-card-text>
-                        <v-form @submit.prevent="submitForm">
-                            <v-text-field label="Nome da empresa" v-model="formData.nome" outlined required></v-text-field>
-                            <v-text-field label="CNPJ" v-mask="'##.###.###/####-##'" v-model="formData.documento" outlined
-                                required></v-text-field>
-                            <v-text-field label="E-mail" v-model="formData.email" type="email" outlined
-                                required></v-text-field>
-                            <v-text-field label="Senha" v-model="formData.senha" type="password" outlined
-                                required></v-text-field>
-                            <v-text-field label="Confirmar senha" v-model="formData.confirmarSenha" type="password" outlined
-                                required></v-text-field>
-                            <!-- <v-alert v-if="hasError" type="error">
-                                {{ errorMessage }}
-                            </v-alert> -->
-                            <v-btn type="submit" color="primary" block>Cadastrar</v-btn>
+                        <v-form>
+                            <v-text-field label="Título da Vaga" v-model="formData.nome" outlined required></v-text-field>
+                            <v-textarea label="Descrição"  v-model="formData.descricao" outlined
+                                required></v-textarea>
+                            <v-text-field label="Link externo" v-model="formData.link"></v-text-field>
+                            <v-text-field label="Local" v-model="formData.local" outlined required></v-text-field>
+                            <v-textarea label="Requisitos"  v-model="formData.requisitos" outlined
+                                required></v-textarea>
+                            <div>
+                                <v-btn @click.native="submitForm" color="primary">Salvar</v-btn>
+                                <v-btn @click.native="Voltar" color="primary">Cancelar</v-btn>
+                            </div>
+                            
                         </v-form>
+                        
                     </v-card-text>
 
                 </v-card>
@@ -27,9 +27,8 @@
         </v-row>
     </v-container>
 </template>
-  
-<script>
 
+<script>
 import axios from 'axios';
 
 export default {
@@ -39,10 +38,10 @@ export default {
             formData: {
                 errorMessage: '',
                 nome: '',
-                documento: '',
-                email: '',
-                senha: '',
-                confirmarSenha: ''
+                descricao: '',
+                link: '',
+                local: '',
+                requisitos: ''
             },
         }
     },
@@ -51,23 +50,23 @@ export default {
             this.hasError = false
             this.errorMessage = ''
 
-            // implementar a lógica de envio do formulário aqui
             if (this.validarCampos()) {
-                axios.post('http://localhost:8080/empresa/cadastro', this.formData)
+                const headers= { "authorization": localStorage.token};
+                axios.post('http://localhost:8080/empresa/novo_processo',this.formData, { headers: headers })
                     .then((response) => {
                         if (response && response.data.ok) {
                             this.$notify({
                                 group: 'foo',
                                 title: "Sucesso",
-                                text: "Conta criada com sucesso",
+                                text: "Vaga criada com sucesso",
                                 type: 'info'
                             });
-                            this.$router.push("/login")
-                        } else {
+                            this.$router.push("/empresaHome");
+                        }else{
                             this.$notify({
                                 group: 'foo',
-                                title: "Sucesso",
-                                text: response.data.err_msg,
+                                title: "blabla",
+                                text: response.data.ok,
                                 type: 'error'
                             });
                         }
@@ -85,25 +84,20 @@ export default {
             }
         },
         validarCampos() {
-            if (!this.formData.nome || !this.formData.documento || !this.formData.email || !this.formData.senha || !this.formData.confirmarSenha) {
+            if (!this.formData.nome || !this.formData.descricao || !this.formData.local || !this.formData.requisitos) {
                 this.$notify({
                     group: 'foo',
                     title: 'Dados inconsistentes',
-                    text: 'Todos os campos são obrigatórios.',
+                    text: 'Todos os campos (exceto link) são obrigatórios.',
                     type: 'error'
                 });
                 return false;
-            } else if (this.formData.senha !== this.formData.confirmarSenha) {
-                this.$notify({
-                    group: 'foo',
-                    title: 'Dados inconsistentes',
-                    text: 'As senhas não coincidem.',
-                    type: 'error'
-                });
-                return false;
-            } else {
+            }else {
                 return true;
             }
+        },
+        Voltar() {
+            this.$router.push("/empresaHome");
         }
     }
 }
@@ -124,6 +118,8 @@ export default {
 
 .v-btn {
     margin-top: 20px;
+    margin-right: 15px;
+    margin-left: 15px;
 }
 
 /* estilos para o contêiner */
