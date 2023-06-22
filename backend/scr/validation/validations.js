@@ -15,7 +15,18 @@ async function verificaEmailDuplicado(email){
     
 }
 
+async function getNextId(sequenceName){
+    var ret = await db.collection('counters').findOneAndUpdate(
+         { _id: sequenceName },
+         { $inc : { seq: 1 } },
+         {upsert: true}
+        
+    );
+    return ret.seq;
+  }
+
 module.exports = {
     validaEmail,
-    verificaEmailDuplicado
+    verificaEmailDuplicado,
+    getNextId
 };

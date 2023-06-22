@@ -21,6 +21,22 @@
         </v-btn>
       </div>
       <div v-else>
+        <v-btn v-if="tipoLogado == 1" :ripple="false" text @click="verMinhasVagas()">
+          <v-icon>mdi-list-box-outline</v-icon>
+          <span class="mr-2">Minhas vagas</span>
+        </v-btn>
+        <v-btn v-if="tipoLogado == 1" :ripple="false" text @click="addVaga()">
+          <v-icon>mdi-list-box-outline</v-icon>
+          <span class="mr-2">Criar nova vaga</span>
+        </v-btn>
+        <v-btn v-if="tipoLogado == 2" :ripple="false" text @click="verTodasVagas()">
+          <v-icon>mdi-list-box-outline</v-icon>
+          <span class="mr-2">Ver vagas</span>
+        </v-btn>
+        <v-btn v-if="tipoLogado == 2" :ripple="false" text @click="verCandidaturas()">
+          <v-icon>mdi-list-box-outline</v-icon>
+          <span class="mr-2">Ver minhas candidaturas</span>
+        </v-btn>
         <v-btn :ripple="false" text @click="sair()">
           <v-icon class="mr-2">mdi-logout</v-icon>
           <span class="mr-2">Sair</span>
@@ -37,45 +53,34 @@
 
 <script>
 
-import router from './router';
-import localStorage from 'localstorage'
-
 export default {
   name: 'App',
-
-  data: () => ({
-    //
+  data() {
+  return {
     logado: false,
     tipoLogado: 0,
-  }),
+  }},
+
   methods: {
-    loadLocalStorageToken() {
-      const data = localStorage.token;
-      return data ? JSON.parse(data) : null;
+    verTodasVagas(){
+      this.$router.push('/usuarioHome')
+    },
+    verCandidaturas(){
+      this.$router.push('/minhasCandidaturas')
+    },
+    verMinhasVagas(){
+      this.$router.push('/empresaHome')
+    },
+    addVaga(){
+      this.$router.push('/adicionarProcesso')
     },
     verificaLogin() {
-      var token = this.loadLocalStorageToken()
-
-      console.log(token)
-
-      if (token != null && token.expirationDate != null) {
-
-        var tokenDate = new Date(token.expirationDate)
-        var now = new Date();
-
-        if (now <= tokenDate) {
-
-          this.logado = true
-          let tipoLogado = token.userType
-
-          if (tipoLogado == 1)
-            this.$router.push("/usuarioHome")
-          else if (tipoLogado == 2) {
-            this.$router.push("/empresaHome")
-          }
+      var token = localStorage.token;
+      if (token) {
+          this.logado = true;
+          this.tipoLogado = localStorage.tipoLogado
 
         }
-      }
     },
     login() {
       this.$router.push("/login")
@@ -88,13 +93,20 @@ export default {
     },
     sair() {
       this.logado = false
+      localStorage.setItem('token', '')
       this.landing()
     },
   },
   mounted() {
     document.title = "InclusiHire"
     this.verificaLogin()
-  }
+  },
+
+  watch: {
+    '$route': function(){
+      this.verificaLogin()
+    }
+  },
 };
 
 </script>
