@@ -52,7 +52,15 @@ export default {
                                 text: "Login efetuado com sucesso",
                                 type: 'error'
                             });
-                            this.$router.push("/usuarioHome")
+                            localStorage.setItem('token', response.data.token);
+                            this.logado = true;
+                            this.tipoLogado = response.data.tipo;
+                            if (response.data.tipo == 1){
+                              this.$router.push("/empresaHome");
+                            }
+                            else{
+                              this.$router.push("/usuarioHome");
+                            }
                         }
                         else{
                           if(! response.data.ok){

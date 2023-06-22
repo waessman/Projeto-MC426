@@ -37,45 +37,27 @@
 
 <script>
 
-import router from './router';
-import localStorage from 'localstorage'
-
 export default {
   name: 'App',
-
-  data: () => ({
-    //
+  data() {
+  return {
     logado: false,
-    tipoLogado: 0,
-  }),
+    tipoLogado: 2,
+  }},
+
   methods: {
-    loadLocalStorageToken() {
-      const data = localStorage.token;
-      return data ? JSON.parse(data) : null;
-    },
     verificaLogin() {
-      var token = this.loadLocalStorageToken()
+      var token = localStorage.token;
+      if (token != null) {
+          this.logado = true;
 
-      console.log(token)
-
-      if (token != null && token.expirationDate != null) {
-
-        var tokenDate = new Date(token.expirationDate)
-        var now = new Date();
-
-        if (now <= tokenDate) {
-
-          this.logado = true
-          let tipoLogado = token.userType
-
-          if (tipoLogado == 1)
-            this.$router.push("/usuarioHome")
-          else if (tipoLogado == 2) {
+          if (tipoLogado == 2){
+            this.$router.push("/usuarioHome")}
+          else if (tipoLogado == 1) {
             this.$router.push("/empresaHome")
           }
 
         }
-      }
     },
     login() {
       this.$router.push("/login")

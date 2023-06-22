@@ -1,7 +1,6 @@
 const modelo = require('../models/model_cadastro');
 
 async function empresaCadastro(req, res){
-    console.log(req.body);
 
     const result = await modelo.insereNovoUsuario(req.body.nome, req.body.documento,
          req.body.email, req.body.senha, req.body.confirmarSenha, 1);
@@ -10,7 +9,6 @@ async function empresaCadastro(req, res){
 }
 
 async function usuarioCadastro(req, res){
-    console.log(req.body);
 
     const result = await modelo.insereNovoUsuario(req.body.nome, req.body.documento,
          req.body.email, req.body.senha, req.body.confirmarSenha, 2);
