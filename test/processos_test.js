@@ -29,7 +29,7 @@ describe('Teste de criação de processos', function() {
         senha: 'senhateste',
         tipo: 2
       };
-      await db.collection('users').insertOne(usuario);
+      await db.collection('users').insertOne(empresa);
 
       const usuario = {
         email: 'usuario@hotmail.com',
