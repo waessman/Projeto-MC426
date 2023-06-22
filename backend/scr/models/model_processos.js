@@ -25,7 +25,6 @@ async function deletar(id, empresa) {
 }
 
 async function fechar(id) {
-    console.log("Oi", id);
     const objectId = new ObjectId(id);
     const update = { $set: { status: 'Encerrado' } };
     const options = { returnOriginal: false };
@@ -81,7 +80,6 @@ async function detalhes_processo_empresa(id) {
 
 async function editar(id, nome, descricao, link_externo, requisitos, local, contato, status) {
     const objectId = new ObjectId(id);
-    console.log("estoi aque", id, nome, descricao, link_externo, requisitos, local, contato, status)
     const result = await db.collection('process').findOneAndUpdate({ _id: objectId }, {
         $set: {
             nome: nome, descricao: descricao,
@@ -111,9 +109,21 @@ async function processos_filtro(filtro) {
         const result = await db.collection('process').find(busca).sort({ _id: -1 }).toArray();
         return { ok: true, processos: result }
     }
+}
 
+async function candidatar(usuario, vaga) {
+    const result = await db.collection('process_candidatura').find({user: usuario, process: vaga}).toArray();
+    if(result.length <=0 )
+    {
+        const result2 = await db.collection('process_candidatura').insertOne({user: usuario, process: vaga}, function (err, result) {
+        }).catch((err) => {
+            console.log(err);
+            return { ok: false, err_msg: "Erro interno" }
+        });
+        return {ok: true, result: result2}
+    }
 
-
+    return {ok: true, result: result[0]}
 
 }
 module.exports = {
@@ -124,5 +134,6 @@ module.exports = {
     detalhes_processo_empresa,
     editar,
     fechar,
-    processos_filtro
+    processos_filtro,
+    candidatar
 };
