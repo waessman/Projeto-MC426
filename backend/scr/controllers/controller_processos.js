@@ -35,7 +35,7 @@ async function Fechar_processo(req, res){
     const result_tipo = await loginModel.get_usertype(req.userInfo);
     if(result_tipo.ok){
         if(result_tipo.tipo == 1){
-            const result = await processoModel.fechar(req.body.id, req.userInfo);
+            const result = await processoModel.fechar(req.body);
             return res.status(200).json(result);}
         else{
             return res.status(404).json({ok: false, err_msg: "Usuário não tem permissão."});
@@ -67,7 +67,6 @@ async function Get_processos_ativos(req, res){
     if(result_tipo.ok){
         if(result_tipo.tipo == 1){
             const result = await processoModel.todos_processos_ativos_empresa(req.userInfo);
-            console.log(result);
             return res.status(200).json(result);
         }
         else{
@@ -83,8 +82,8 @@ async function Editar_processo(req, res){
     const result_tipo = await loginModel.get_usertype(req.userInfo);
     if(result_tipo.ok){
         if(result_tipo.tipo == 1){
-            const result = await processoModel.editar(req.body.id, req.body.nome, req.body.descricao, req.body.link_externo, req.body.requisitos, req.body.local,
-                 req.body.contato, req.userInfo, req.body.status);
+            const result = await processoModel.editar(req.body._id, req.body.nome, req.body.descricao, req.body.link_externo, req.body.requisitos, req.body.local,
+                 req.body.contato, req.body.status);
             return res.status(200).json(result);}
         else{
             return res.status(404).json({ok: false, err_msg: "Usuário não tem permissão."});
@@ -99,7 +98,7 @@ async function GetById(req, res){
     const result_tipo = await loginModel.get_usertype(req.userInfo);
     if(result_tipo.ok){
         if(result_tipo.tipo == 1){
-            const result = await processoModel.detalhes_processo_empresa(req.body.id, req.userInfo);
+            const result = await processoModel.detalhes_processo_empresa(req.body.id);
             return res.status(200).json(result);}
         else{
             return res.status(404).json({ok: false, err_msg: "Usuário não tem permissão."});

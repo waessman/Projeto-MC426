@@ -52,10 +52,10 @@ export default {
                                 type: 'info'
                             });
                             localStorage.setItem('token', response.data.token);
-                            localStorage.setItem('tipoLogado', response.data.tipo)
+                            localStorage.setItem('tipoLogado', response.data.user.tipo)
                             this.logado = true;
-                            this.tipoLogado = response.data.tipo;
-                            if (response.data.tipo == 1){
+                            this.tipoLogado = response.data.user.tipo;
+                            if (response.data.user.tipo == 1){
                               this.$router.push("/empresaHome");
                             }
                             else{

@@ -39,7 +39,7 @@ export default {
   },
   mounted() {
     const config = { "headers": { "authorization": localStorage.token } };
-    axios.get('http://localhost:8080/empresa/processos', config)
+    axios.get('http://localhost:8080/empresa/all_processos', config)
       .then(response => {
         this.processos = response.data.processos;
         this.tipo = response.data.tipo;

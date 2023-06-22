@@ -10,14 +10,17 @@
 
       <div class="footer">
         <v-btn color="grey darken-1" @click="verCandidaturas" dark>Ver Candidatos</v-btn>
-        <v-btn color="primary" @click="editarVaga(id)">Editar</v-btn>
-        <v-btn color="error" @click="fecharVaga">Fechar</v-btn>
+        <v-btn v-if="status != 'Encerrado'" color="primary" @click="editarVaga(id)">Editar</v-btn>
+        <v-btn v-else disabled color="primary" @click="editarVaga(id)">Editar</v-btn>
+        <v-btn color="error" v-if="status!='Encerrado'" @click="fecharVaga(id)">Fechar</v-btn>
       </div>
     </v-card>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   props: {
     id: String,
@@ -36,8 +39,22 @@ export default {
       // Lógica para editar a vaga
       this.$router.push('/adicionarProcesso/'+id)
     },
-    fecharVaga() {
-      // Lógica para fechar a vaga
+    fecharVaga(id) {
+      const configs = { "headers": { "authorization": localStorage.token }, "body": { "id": id} }
+      axios.post('http://localhost:8080/empresa/close_processo', {id: id}, configs)
+        .then((response) => {
+          if (response && response.data.ok) {
+            console.log(response)
+            this.status = response.data.processo.status
+          } else {
+            this.$notify({
+              group: 'foo',
+              title: "Erro interno",
+              text: response.data.err_msg,
+              type: 'error'
+            });
+          }
+        })
     }
   }
 };

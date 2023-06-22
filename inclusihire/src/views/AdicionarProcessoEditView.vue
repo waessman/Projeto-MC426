@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6">
         <v-card>
-          <v-card-title class="headline text-center custom-card-title">Nova Vaga</v-card-title>
+          <v-card-title class="headline text-center custom-card-title">Editar Vaga</v-card-title>
           <v-card-text>
             <v-form>
               <v-text-field label="Título da Vaga" v-model="formData.nome" outlined required></v-text-field>
@@ -13,7 +13,7 @@
               <v-textarea label="Requisitos" v-model="formData.requisitos" outlined required></v-textarea>
               <div>
                 <v-btn @click.native="submitForm" color="primary">Salvar</v-btn>
-                <v-btn @click.native="Voltar" color="primary">Cancelar</v-btn>
+                <v-btn @click.native="Voltar" color="primary">Voltar</v-btn>
               </div>
 
             </v-form>
@@ -51,11 +51,11 @@ export default {
   },
   methods: {
     carregaForm() {
-      const headers= { "authorization": localStorage.token};
-      axios.post('http://localhost:8080/empresa/get_processo', {id: this.id}, headers)
+      const configs = { "headers": { "authorization": localStorage.token }, "body": { "id": this.id} }
+      axios.post('http://localhost:8080/empresa/get_processo', {id: this.id}, configs)
         .then((response) => {
           if (response && response.data.ok) {
-            this.formData = response.data.data
+            this.formData = response.data.processo
           } else {
             this.$notify({
               group: 'foo',
@@ -71,24 +71,25 @@ export default {
       this.errorMessage = ''
 
       if (this.validarCampos()) {
-        const headers = { "authorization": localStorage.token };
-        axios.post('http://localhost:8080/empresa/edit_processo', this.formData, { headers: headers })
+        const configs = { "headers": { "authorization": localStorage.token }, "body": { "id": this.id} }
+        axios.post('http://localhost:8080/empresa/edit_processo', this.formData, configs)
           .then((response) => {
             if (response && response.data.ok) {
               this.$notify({
                 group: 'foo',
                 title: "Sucesso",
-                text: "Vaga editara com sucesso",
+                text: "Vaga editada com sucesso",
                 type: 'info'
               });
-              this.$router.push("/empresaHome");
+              //this.$router.push("/empresaHome");
             } else {
               this.$notify({
                 group: 'foo',
-                title: "blabla",
+                title: "Erro interno",
                 text: response.data.ok,
                 type: 'error'
               });
+              console.log(response)
             }
           })
           .catch((error) => {

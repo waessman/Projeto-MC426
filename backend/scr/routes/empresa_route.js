@@ -9,11 +9,11 @@ const checkJWT = require('../middlewares/jwt.middleware').checkJWT;
 router.post('/cadastro', empresaController.empresaCadastro);
 router.post('/novo_processo', checkJWT, processController.Criar_processo);
 router.put('/delete_processo', checkJWT, processController.Deletar_processo);
-router.put('/edit_processo', checkJWT, processController.Editar_processo);
+router.post('/edit_processo', checkJWT, processController.Editar_processo);
 router.get('/all_processos', checkJWT, processController.Get_todos_processos);
 router.get('/processos', checkJWT, processController.Get_processos_ativos); //Ativos
-router.get('/get_processo', checkJWT, processController.GetById);
-router.put('/close_processo', checkJWT, processController.Fechar_processo);
+router.post('/get_processo', checkJWT, processController.GetById);
+router.post('/close_processo', checkJWT, processController.Fechar_processo);
 
 /**
  * @swagger
