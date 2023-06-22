@@ -29,9 +29,13 @@
           <v-icon>mdi-list-box-outline</v-icon>
           <span class="mr-2">Criar nova vaga</span>
         </v-btn>
+        <v-btn v-if="tipoLogado == 2" :ripple="false" text @click="verCurriculo()">
+          <v-icon>mdi-list-box-outline</v-icon>
+          <span class="mr-2">Editar meu currículo</span>
+        </v-btn>
         <v-btn v-if="tipoLogado == 2" :ripple="false" text @click="verTodasVagas()">
           <v-icon>mdi-list-box-outline</v-icon>
-          <span class="mr-2">Ver vagas</span>
+          <span class="mr-2">Ver vagas abertas</span>
         </v-btn>
         <v-btn v-if="tipoLogado == 2" :ripple="false" text @click="verCandidaturas()">
           <v-icon>mdi-list-box-outline</v-icon>
@@ -62,6 +66,9 @@ export default {
   }},
 
   methods: {
+    verCurriculo(){
+      this.$router.push('/usuarioCurriculo')
+    },
     verTodasVagas(){
       this.$router.push('/usuarioHome')
     },
