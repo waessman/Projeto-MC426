@@ -55,15 +55,21 @@ export default {
             if (this.validarCampos()) {
                 axios.post('http://localhost:8080/empresa/cadastro', this.formData)
                     .then((response) => {
-                        console.log(response);
-                        if (response && response.ok) {
+                        if (response && response.data.ok) {
                             this.$notify({
                                 group: 'foo',
                                 title: "Sucesso",
                                 text: "Conta criada com sucesso",
-                                type: 'error'
+                                type: 'info'
                             });
                             this.$router.push("/login")
+                        } else {
+                            this.$notify({
+                                group: 'foo',
+                                title: "Sucesso",
+                                text: response.data.err_msg,
+                                type: 'error'
+                            });
                         }
                     })
                     .catch((error) => {

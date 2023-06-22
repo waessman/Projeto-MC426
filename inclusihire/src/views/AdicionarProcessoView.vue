@@ -54,13 +54,12 @@ export default {
                 const headers= { "authorization": localStorage.token};
                 axios.post('http://localhost:8080/empresa/novo_processo',this.formData, { headers: headers })
                     .then((response) => {
-                        console.log(response);
                         if (response && response.data.ok) {
                             this.$notify({
                                 group: 'foo',
                                 title: "Sucesso",
                                 text: "Vaga criada com sucesso",
-                                type: 'error'
+                                type: 'info'
                             });
                             this.$router.push("/empresaHome");
                         }else{

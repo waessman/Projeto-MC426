@@ -29,8 +29,14 @@ async function todos_processos_empresa(empresa){
        
 }
 
+async function get_by_id(id){
+    const result = await db.collection('process').findOne({_id: new ObjectId(id)});
+    return {ok: true, data: result}
+}
+
 module.exports = {
     criar,
     deletar,
     todos_processos_empresa,
+    get_by_id,
   };

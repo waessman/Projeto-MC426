@@ -55,7 +55,6 @@ export default {
             if (this.validarCampos()) {
                 axios.post('http://localhost:8080/usuario/cadastro', this.formData)
                     .then((response) => {
-                        console.log(response);
                         if (response && response.data.ok) {
                             this.$notify({
                                 group: 'foo',
@@ -64,6 +63,13 @@ export default {
                                 type: 'info'
                             });
                             this.$router.push("/login")
+                        } else{
+                            this.$notify({
+                                group: 'foo',
+                                title: "Sucesso",
+                                text: response.data.err_msg,
+                                type: 'error'
+                            });
                         }
                     })
                     .catch((error) => {

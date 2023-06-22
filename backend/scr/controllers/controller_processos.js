@@ -31,12 +31,16 @@ async function Deletar_processo(req, res){
     }
 }
 
+async function get_processo(req, res){
+    const result = await processoModel.get_by_id(req.body.id)
+    return res.status(200).json(result)
+}
+
 async function Get_proc_empresa(req, res){
     const result_tipo = await loginModel.get_usertype(req.userInfo);
     if(result_tipo.ok){
         if(result_tipo.tipo == 1){
             const result = await processoModel.todos_processos_empresa(req.userInfo);
-            console.log(result);
             return res.status(200).json(result);
         }
         else{
@@ -52,5 +56,6 @@ module.exports = {
     Criar_processo,
     Deletar_processo,
     Get_proc_empresa,
+    get_processo,
   };
 

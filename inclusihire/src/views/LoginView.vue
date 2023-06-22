@@ -44,15 +44,15 @@ export default {
       if (this.validarCampos()) {
                 axios.post('http://localhost:8080/login', this.credentials)
                     .then((response) => {
-                        console.log(response);
                         if (response && response.data.ok) {
                             this.$notify({
                                 group: 'foo',
                                 title: "Sucesso",
                                 text: "Login efetuado com sucesso",
-                                type: 'error'
+                                type: 'info'
                             });
                             localStorage.setItem('token', response.data.token);
+                            localStorage.setItem('tipoLogado', response.data.tipo)
                             this.logado = true;
                             this.tipoLogado = response.data.tipo;
                             if (response.data.tipo == 1){
@@ -64,7 +64,6 @@ export default {
                         }
                         else{
                           if(! response.data.ok){
-                            console.log(response);
                             this.$notify({
                             group: 'foo',
                             title: "Erro",

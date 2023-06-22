@@ -21,6 +21,10 @@
         </v-btn>
       </div>
       <div v-else>
+        <v-btn :ripple="false" text @click="minhasVagas()">
+          <v-icon>mdi-list-box-outline</v-icon>
+          <span class="mr-2">Criar nova vaga</span>
+        </v-btn>
         <v-btn :ripple="false" text @click="sair()">
           <v-icon class="mr-2">mdi-logout</v-icon>
           <span class="mr-2">Sair</span>
@@ -42,18 +46,22 @@ export default {
   data() {
   return {
     logado: false,
-    tipoLogado: 2,
+    tipoLogado: 0,
   }},
 
   methods: {
+    minhasVagas(){
+      this.$router.push('/adicionarProcesso')
+    },
     verificaLogin() {
       var token = localStorage.token;
-      if (token != null) {
+      if (token) {
           this.logado = true;
+          this.tipoLogado = localStorage.tipo
 
-          if (tipoLogado == 2){
+          if (this.tipoLogado == 2){
             this.$router.push("/usuarioHome")}
-          else if (tipoLogado == 1) {
+          else if (this.tipoLogado == 1) {
             this.$router.push("/empresaHome")
           }
 
@@ -70,13 +78,20 @@ export default {
     },
     sair() {
       this.logado = false
+      localStorage.setItem('token', '')
       this.landing()
     },
   },
   mounted() {
     document.title = "InclusiHire"
     this.verificaLogin()
-  }
+  },
+
+  watch: {
+    '$route': function(){
+      this.verificaLogin()
+    }
+  },
 };
 
 </script>

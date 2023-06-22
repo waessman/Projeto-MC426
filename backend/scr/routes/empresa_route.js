@@ -9,5 +9,6 @@ router.post('/cadastro', empresaController.empresaCadastro);
 router.post('/novo_processo', checkJWT, processController.Criar_processo);
 router.delete('/processo', checkJWT, processController.Deletar_processo);
 router.get('/processos', checkJWT, processController.Get_proc_empresa);
+router.post('/get_processo', processController.get_processo);
 
 module.exports = router;

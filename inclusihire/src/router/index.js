@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import localStorage from 'localstorage'
 
 Vue.use(VueRouter)
 
@@ -37,9 +36,14 @@ const routes = [
     component: () => import('../views/EmpresaHomeView.vue')
   },
   {
-    path: '/AdicionarProcesso',
+    path: '/adicionarProcesso',
     name: 'Nova Vaga',
     component: () => import('../views/AdicionarProcessoView.vue')
+  },
+  {
+    path: '/adicionarProcesso/:id',
+    name: 'Nova Vaga',
+    component: () => import('../views/AdicionarProcessoEditView.vue')
   },
 ]
 
@@ -50,25 +54,6 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-
-
-  if(to.path == "/forceLogin"){
-
-    var tokenDate = new Date()
-    tokenDate.setDate(tokenDate.getDate() + 1)
-    var obj = {
-      expirationDate: tokenDate,  
-      userType: 1
-    }
-    localStorage.token = JSON.stringify(obj)
-    next("/")
-
-  }
-
-  //TODO
-  //Implementar método para verificar sessão do usuário, se ainda está logado
-  // verificarSessao()
-  //console.log(router.resolve(to.path).route)
   if(router.resolve(to.path).route.matched.length == 0)
     next("/")
   
