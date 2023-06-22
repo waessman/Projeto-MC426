@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="pa-4">
     <!-- <router-link to="/AdicionarProcesso">Adicionar Vaga</router-link> -->
-    <h1>Minhas vagas abertas</h1>
+    <h1>Minhas Vagas</h1>
     <div v-if="processos.length > 0">
       <div v-for="processo in processos" :key="processo._id">
         <VagaVisaoEmpresa :nome="processo.nome" :requisitos="processo.requisitos" :status="processo.status"

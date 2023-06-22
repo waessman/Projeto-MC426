@@ -21,9 +21,21 @@
         </v-btn>
       </div>
       <div v-else>
-        <v-btn :ripple="false" text @click="minhasVagas()">
+        <v-btn v-if="tipoLogado == 1" :ripple="false" text @click="verMinhasVagas()">
+          <v-icon>mdi-list-box-outline</v-icon>
+          <span class="mr-2">Minhas vagas</span>
+        </v-btn>
+        <v-btn v-if="tipoLogado == 1" :ripple="false" text @click="addVaga()">
           <v-icon>mdi-list-box-outline</v-icon>
           <span class="mr-2">Criar nova vaga</span>
+        </v-btn>
+        <v-btn v-if="tipoLogado == 2" :ripple="false" text @click="verTodasVagas()">
+          <v-icon>mdi-list-box-outline</v-icon>
+          <span class="mr-2">Ver vagas</span>
+        </v-btn>
+        <v-btn v-if="tipoLogado == 2" :ripple="false" text @click="verCandidaturas()">
+          <v-icon>mdi-list-box-outline</v-icon>
+          <span class="mr-2">Ver minhas candidaturas</span>
         </v-btn>
         <v-btn :ripple="false" text @click="sair()">
           <v-icon class="mr-2">mdi-logout</v-icon>
@@ -50,20 +62,23 @@ export default {
   }},
 
   methods: {
-    minhasVagas(){
+    verTodasVagas(){
+      this.$router.push('/usuarioHome')
+    },
+    verCandidaturas(){
+      this.$router.push('/minhasCandidaturas')
+    },
+    verMinhasVagas(){
+      this.$router.push('/empresaHome')
+    },
+    addVaga(){
       this.$router.push('/adicionarProcesso')
     },
     verificaLogin() {
       var token = localStorage.token;
       if (token) {
           this.logado = true;
-          this.tipoLogado = localStorage.tipo
-
-          if (this.tipoLogado == 2){
-            this.$router.push("/usuarioHome")}
-          else if (this.tipoLogado == 1) {
-            this.$router.push("/empresaHome")
-          }
+          this.tipoLogado = localStorage.tipoLogado
 
         }
     },
