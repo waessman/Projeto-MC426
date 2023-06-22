@@ -53,6 +53,7 @@ export default {
                             });
                             localStorage.setItem('token', response.data.token);
                             localStorage.setItem('tipoLogado', response.data.user.tipo)
+                            localStorage.setItem('userId', response.data.user._id)
                             this.logado = true;
                             this.tipoLogado = response.data.user.tipo;
                             if (response.data.user.tipo == 1){
