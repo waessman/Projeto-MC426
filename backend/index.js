@@ -11,6 +11,7 @@ const specs = require('./swagger.js');
 const empresaRouter = require('./scr/routes/empresa_route');
 const loginRouter = require('./scr/routes/login_route');
 const usuarioRouter = require('./scr/routes/usuario_route')
+const usuariosRouter = require('./scr/routes/usuarios_route')
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 app.use('/empresa', empresaRouter); 
 app.use('/', loginRouter);
 app.use('/usuario', usuarioRouter); 
+app.use('/', usuariosRouter); 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
   

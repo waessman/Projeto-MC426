@@ -49,13 +49,6 @@ async function fechar(id) {
     }
 }
 
-
-
-
-
-
-
-
 async function todos_processos_empresa(empresa) {
     const result = await db.collection('process').find({ empresa_id: empresa }).toArray();
 
@@ -126,6 +119,17 @@ async function candidatar(usuario, vaga) {
     return {ok: true, result: result[0]}
 
 }
+
+async function candidatos(proceso) {
+    const result = await db.collection('process_candidatura').find({process: processo}).toArray();
+    if(result.length > 0 )
+    {
+        return {ok: true, result: result}
+    }
+
+    return {ok: false, message: 'Processo não encontrado'}
+
+}
 module.exports = {
     criar,
     deletar,
@@ -135,5 +139,6 @@ module.exports = {
     editar,
     fechar,
     processos_filtro,
-    candidatar
+    candidatar,
+    candidatos
 };
