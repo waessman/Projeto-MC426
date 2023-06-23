@@ -120,7 +120,7 @@ async function candidatar(usuario, vaga) {
 
 }
 
-async function candidatos(proceso) {
+async function candidatos(processo) {
     const result = await db.collection('process_candidatura').find({process: processo}).toArray();
     if(result.length > 0 )
     {
