@@ -31,7 +31,7 @@
         </v-btn>
         <v-btn v-if="tipoLogado == 2" :ripple="false" text @click="verCurriculo()">
           <v-icon>mdi-list-box-outline</v-icon>
-          <span class="mr-2">Editar meu currículo</span>
+          <span class="mr-2">Editar meu perfil</span>
         </v-btn>
         <v-btn v-if="tipoLogado == 2" :ripple="false" text @click="verTodasVagas()">
           <v-icon>mdi-list-box-outline</v-icon>

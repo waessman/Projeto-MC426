@@ -121,6 +121,16 @@ async function user_candidatar(req, res){
     return res.status(200).json(result)
 }
 
+async function ver_candidatos(req, res){
+    const result = await processoModel.candidatos(req.body.vaga)
+    return res.status(200).json(result)
+}
+
+async function ver_vagas_candidatadas(req, res){
+    const result = await processoModel.vagasCandidato(req.body.user)
+    return res.status(200).json(result)
+}
+
 module.exports = {
     Criar_processo,
     Deletar_processo,
@@ -131,5 +141,7 @@ module.exports = {
     Fechar_processo,
     User_get_processos,
     user_candidatar,
+    ver_candidatos,
+    ver_vagas_candidatadas
   };
 

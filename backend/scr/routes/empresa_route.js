@@ -14,6 +14,7 @@ router.get('/all_processos', checkJWT, processController.Get_todos_processos);
 router.get('/processos', checkJWT, processController.Get_processos_ativos); //Ativos
 router.post('/get_processo', checkJWT, processController.GetById);
 router.post('/close_processo', checkJWT, processController.Fechar_processo);
+router.post('/getCandidaturas', checkJWT, processController.ver_candidatos);
 
 /**
  * @swagger

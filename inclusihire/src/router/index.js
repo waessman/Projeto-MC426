@@ -42,8 +42,20 @@ const routes = [
   },
   {
     path: '/adicionarProcesso/:id',
-    name: 'Nova Vaga',
+    name: 'Editar Vaga',
     component: () => import('../views/AdicionarProcessoEditView.vue')
+  }, {
+    path: '/usuarioCurriculo',
+    name: 'Meu perfil',
+    component: () => import('../views/UsuarioPerfilEdit.vue')
+  }, {
+    path: '/verCandidatos/:id',
+    name: 'Editar Vaga',
+    component: () => import('../views/CandidatosVisualizacao.vue')
+  }, {
+    path: '/minhasCandidaturas',
+    name: 'Vagas Candidatadas',
+    component: () => import('../views/UsuarioCandidatadas.vue')
   },
 ]
 
@@ -54,9 +66,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if(router.resolve(to.path).route.matched.length == 0)
+  if (router.resolve(to.path).route.matched.length == 0)
     next("/")
-  
+
   next()
 })
 
@@ -67,12 +79,12 @@ const onError = (e) => {
 // keep original function
 const _push = router.__proto__.push
 // then override it
-router.__proto__.push = function push (...args) {
+router.__proto__.push = function push(...args) {
   try {
     const op = _push.call(this, ...args)
     if (op instanceof Promise) op.catch(onError)
     return op
-  } catch (e) {   
+  } catch (e) {
     onError(e)
   }
 }
