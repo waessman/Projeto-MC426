@@ -8,19 +8,19 @@ async function user_by_id(email) {
     if (result)
         return { ok: true, result: result }
     else
-        return { ok: false, message: 'Processo não encontrado' };
+        return { ok: false, message: 'Usuario não encontrado' };
 }
 
-async function edit_user(email, nome, documento, senha) {
+async function edit_user(email, nome, documento, curriculo) {
     const result = await db.collection('users').findOneAndUpdate({ email: email }, {
         $set: {
-            nome: nome, documento: documento, senha: senha
+            nome: nome, documento: documento, curriculo: curriculo
         }
     }, { new: true });
     if (result.value)
         return { ok: true }
     else
-        return { ok: false, message: 'Processo não encontrado' };
+        return { ok: false, message: 'Usuario não encontrado' };
 }
 
 module.exports = {

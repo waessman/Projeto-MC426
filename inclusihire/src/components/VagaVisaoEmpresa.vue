@@ -9,7 +9,7 @@
       <p>Local: {{ local }}</p>
 
       <div class="footer">
-        <v-btn color="grey darken-1" @click="verCandidaturas" dark>Ver Candidatos</v-btn>
+        <v-btn color="grey darken-1" @click="verCandidaturas(id)" dark>Ver Candidatos</v-btn>
         <v-btn v-if="status != 'Encerrado'" color="primary" @click="editarVaga(id)">Editar</v-btn>
         <v-btn v-else disabled color="primary" @click="editarVaga(id)">Editar</v-btn>
         <v-btn color="error" v-if="status!='Encerrado'" @click="fecharVaga(id)">Fechar</v-btn>

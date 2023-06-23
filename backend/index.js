@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 app.use('/empresa', empresaRouter); 
 app.use('/', loginRouter);
 app.use('/usuario', usuarioRouter); 
-app.use('/', usuariosRouter); 
+app.use('/usuarios', usuariosRouter); 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
   

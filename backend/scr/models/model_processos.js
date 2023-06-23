@@ -105,29 +105,41 @@ async function processos_filtro(filtro) {
 }
 
 async function candidatar(usuario, vaga) {
-    const result = await db.collection('process_candidatura').find({user: usuario, process: vaga}).toArray();
-    if(result.length <=0 )
-    {
-        const result2 = await db.collection('process_candidatura').insertOne({user: usuario, process: vaga}, function (err, result) {
+    const result = await db.collection('process_candidatura').find({ user: usuario, process: vaga }).toArray();
+    if (result.length <= 0) {
+        const result2 = await db.collection('process_candidatura').insertOne({ user: usuario, process: vaga }, function (err, result) {
         }).catch((err) => {
             console.log(err);
             return { ok: false, err_msg: "Erro interno" }
         });
-        return {ok: true, result: result2}
+        return { ok: true, result: result2 }
     }
 
-    return {ok: true, result: result[0]}
+    return { ok: true, result: result[0] }
 
 }
 
+async function vagasCandidato(candidato) {
+    const result = await db.collection('process_candidatura').find({ user: candidato }).toArray();
+    if (result.length > 0) {
+        const processIds = result.map(item => new ObjectId(item.process));
+        const processess = await db.collection('process').find
+        ({ _id: { $in: processIds } }).toArray();
+        return { ok: true, result: processess }
+    }
+    return {ok: false, result: "Nenhuma vaga encontrada"}
+}
+
 async function candidatos(processo) {
-    const result = await db.collection('process_candidatura').find({process: processo}).toArray();
-    if(result.length > 0 )
-    {
-        return {ok: true, result: result}
+    const result = await db.collection('process_candidatura').find({ process: processo }).toArray();
+    if (result.length > 0) {
+        const userIds = result.map(item => new ObjectId(item.user));
+        const users = await db.collection('users').find
+            ({ _id: { $in: userIds } }).project({ nome: 1, curriculo: 1 }).toArray();
+        return { ok: true, result: users }
     }
 
-    return {ok: false, message: 'Processo não encontrado'}
+    return { ok: false, message: 'Nenhum candidato encontrado' }
 
 }
 module.exports = {
@@ -140,5 +152,6 @@ module.exports = {
     fechar,
     processos_filtro,
     candidatar,
-    candidatos
+    candidatos,
+    vagasCandidato
 };

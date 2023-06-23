@@ -7,7 +7,7 @@
       <p>Status: {{ status }}</p>
       <p>Local: {{ local }}</p>
 
-      <div class="footer">
+      <div v-if="showCandidatar" class="footer">
         <v-btn color="info" @click="candidatar(id)" dark>Candidatar-se</v-btn>
       </div>
     </v-card>
@@ -26,16 +26,20 @@ export default {
     numeroCandidaturas: Number,
     local: String,
     descricao: String,
+    showCandidatar: {
+      type: Boolean,
+      default: true
+    }
   },
   methods: {
     candidatar(id) {
-      const config = { "headers": { "authorization": localStorage.token }, "body": {usuario: localStorage.userId, vaga: id} };
-      axios.post('http://localhost:8080/usuario/candidatar', {usuario: localStorage.userId, vaga: id}, config)
+      const config = { "headers": { "authorization": localStorage.token }, "body": { usuario: localStorage.userId, vaga: id } };
+      axios.post('http://localhost:8080/usuario/candidatar', { usuario: localStorage.userId, vaga: id }, config)
         .then(response => {
-          if(response.data.ok){
-            if(response.data.result.user){
+          if (response.data.ok) {
+            if (response.data.result.user) {
               alert("Você já se candidatou a essa vaga")
-            } else{
+            } else {
               alert("Candidatou-se com sucesso!")
             }
           }
