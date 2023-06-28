@@ -9,15 +9,19 @@
               <v-text-field
                 v-model="credentials.email"
                 label="E-mail do usuário"
+                title="E-mail do usuário"
                 outlined
+                tabindex="5"
               ></v-text-field>
               <v-text-field
                 v-model="credentials.senha"
                 label="Senha"
+                title="Senha"
                 outlined
+                tabindex="6"
                 type="password"
               ></v-text-field>
-              <v-btn type="submit" color="primary">Login</v-btn>
+              <v-btn type="submit" color="primary" tabindex="7">Login</v-btn>
             </v-form>
           </v-card-text>
         </v-card>

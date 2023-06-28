@@ -2,7 +2,7 @@
     <div class="job-view">
       <v-card outlined class="pa-5">
         <h2>{{ nome }}</h2>
-        <p>Link currículo: {{ curriculo }}</p>
+        <p>Link currículo: <router-link :to="{path: '//'+ curriculo}" class="nav-link" target="_blank">{{ curriculo }}</router-link></p>
       </v-card>
     </div>
   </template>

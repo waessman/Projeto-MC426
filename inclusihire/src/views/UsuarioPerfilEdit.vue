@@ -6,15 +6,15 @@
           <v-card-title class="headline text-center custom-card-title">Edição meu perfil</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="submitForm">
-              <v-text-field label="Nome Completo" v-model="formData.nome" outlined required></v-text-field>
-              <v-text-field label="CPF" v-mask="'###.###.###-##'" v-model="formData.documento" outlined
-                required></v-text-field>
-              <v-text-field label="Link currículo" v-model="formData.curriculo" outlined required></v-text-field>
+              <v-text-field label="Nome Completo" tittle="Nome Completo" v-model="formData.nome" outlined required tabindex="6"></v-text-field>
+              <v-text-field label="CPF" tittle="CPF" v-mask="'###.###.###-##'" v-model="formData.documento" outlined
+                required tabindex="7"></v-text-field>
+              <v-text-field label="Link currículo" tittle="Link currículo" v-model="formData.curriculo" outlined required tabindex="8"></v-text-field>
 
               <!-- <v-alert v-if="hasError" type="error">
                               {{ errorMessage }}
                           </v-alert> -->
-              <v-btn type="submit" color="primary" block>Salvar alterações</v-btn>
+              <v-btn type="submit" color="primary" block title="Salvar Alterações" tabindex="9">Salvar alterações</v-btn>
             </v-form>
           </v-card-text>
 

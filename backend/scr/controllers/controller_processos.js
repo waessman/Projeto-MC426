@@ -117,7 +117,7 @@ async function User_get_processos(req, res){
 }
 
 async function user_candidatar(req, res){
-    const result = await processoModel.candidatar(req.body.usuario, req.body.vaga)
+    const result = await processoModel.candidatar(req.body.usuario, req.body.vaga, req.userInfo)
     return res.status(200).json(result)
 }
 

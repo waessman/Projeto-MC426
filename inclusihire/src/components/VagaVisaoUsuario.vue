@@ -8,7 +8,7 @@
       <p>Local: {{ local }}</p>
 
       <div v-if="showCandidatar" class="footer">
-        <v-btn color="info" @click="candidatar(id)" dark>Candidatar-se</v-btn>
+        <v-btn color="info" @click="candidatar(id)" dark title="Candidatar-se a vaga">Candidatar-se</v-btn>
       </div>
     </v-card>
   </div>
@@ -43,7 +43,11 @@ export default {
               alert("Candidatou-se com sucesso!")
             }
           }
-        })
+          else{
+            alert(response.data.err_msg)
+          }
+        }
+        )
         .catch(error => {
           this.$notify({
             group: 'foo',

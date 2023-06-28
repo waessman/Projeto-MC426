@@ -41,6 +41,6 @@ const checkJWT = require('../middlewares/jwt.middleware').checkJWT;
  */
 router.post('/cadastro', usuarioController.usuarioCadastro);
 router.post('/get_processo', checkJWT, processController.User_get_processos); // /usuario/get_processo
-router.post('/candidatar', processController.user_candidatar)
+router.post('/candidatar',checkJWT, processController.user_candidatar)
 router.post('/get_candidatadas', checkJWT, processController.ver_vagas_candidatadas);
 module.exports = router;

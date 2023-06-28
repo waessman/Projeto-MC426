@@ -42,11 +42,11 @@
         termoBusca: '',
       };
     },
-    methods: {
-      buscar() {
-        const config = { "headers": { "authorization": localStorage.token }, "body": { vaga: this.vaga } };
-        axios.post('http://localhost:8080/empresa/getCandidaturas', {vaga: this.vaga}, config)
-        if (response.data.ok)
+    mounted() {
+      this.vaga = this.$route.params.id
+      const config = { "headers": { "authorization": localStorage.token }, "body": { vaga: this.vaga } };
+        axios.post('http://localhost:8080/empresa/getCandidaturas', {vaga: this.vaga}, config).then((response) => {
+          if (response.data.ok)
             this.candidatos = response.data.result;
           else {
             this.$notify({
@@ -56,11 +56,7 @@
               type: 'error'
             });
           }
-      }
-    },
-    mounted() {
-      this.vaga = this.$route.params.id
-      this.buscar();
+        }); 
     }
   };
   </script>

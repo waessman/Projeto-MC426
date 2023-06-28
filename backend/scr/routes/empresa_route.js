@@ -134,7 +134,7 @@ router.post('/getCandidaturas', checkJWT, processController.ver_candidatos);
 
 /**
  * @swagger
- * /empresa/processos/todos:
+ * /empresa/all_processos:
  *   get:
  *     summary: Get todos os processos de uma empresa
  *     parameters:
@@ -218,6 +218,75 @@ router.post('/getCandidaturas', checkJWT, processController.ver_candidatos);
  *          description : ok true
  *       '404':
  *          description: ok false | err_msg
+ */
+
+/**
+ * @swagger
+ * /empresa/get_processo:
+ *   get:
+ *     summary: Retorna os dados de um processo dado um ID 
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *             required:
+ *               - id
+ *     responses:
+ *       '200':
+ *          description : ok true | processo
+ *       '404':
+ *          description: ok false | err_msg
+ */
+
+/**
+ * @swagger
+ * /empresa/close_processo:
+ *   put:
+ *     summary: Fecha um processo dado um ID 
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *             required:
+ *               - id
+ *     responses:
+ *       '200':
+ *          description : ok true | processo atualizado
+ *       '404':
+ *          description: ok false | message
+ */
+
+/**
+ * @swagger
+ * /empresa/getCandidaturas:
+ *   get:
+ *     summary: Retorna todos os candidatos de um processo dado um ID 
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *             required:
+ *               - id
+ *     responses:
+ *       '200':
+ *          description : ok true | result
+ *       '404':
+ *          description: ok false | message
  */
 
 module.exports = router;

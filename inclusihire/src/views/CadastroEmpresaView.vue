@@ -6,19 +6,19 @@
                     <v-card-title class="headline text-center custom-card-title">Cadastro de nova empresa</v-card-title>
                     <v-card-text>
                         <v-form @submit.prevent="submitForm">
-                            <v-text-field label="Nome da empresa" v-model="formData.nome" outlined required></v-text-field>
-                            <v-text-field label="CNPJ" v-mask="'##.###.###/####-##'" v-model="formData.documento" outlined
-                                required></v-text-field>
-                            <v-text-field label="E-mail" v-model="formData.email" type="email" outlined
-                                required></v-text-field>
-                            <v-text-field label="Senha" v-model="formData.senha" type="password" outlined
-                                required></v-text-field>
-                            <v-text-field label="Confirmar senha" v-model="formData.confirmarSenha" type="password" outlined
-                                required></v-text-field>
+                            <v-text-field label="Nome da empresa" tittle="Nome da empresa" v-model="formData.nome" outlined required tabindex="5"></v-text-field>
+                            <v-text-field label="CNPJ" tittle="CNPJ" v-mask="'##.###.###/####-##'" v-model="formData.documento" outlined
+                                required tabindex="6"></v-text-field>
+                            <v-text-field label="E-mail" tittle="E-mail" v-model="formData.email" type="email" outlined
+                                required tabindex="7"></v-text-field>
+                            <v-text-field label="Senha" tittle="Senha" v-model="formData.senha" type="password" outlined
+                                required tabindex="8"></v-text-field>
+                            <v-text-field label="Confirmar senha" tittle="Confirmar senha" v-model="formData.confirmarSenha" type="password" outlined
+                                required tabindex="9"></v-text-field>
                             <!-- <v-alert v-if="hasError" type="error">
                                 {{ errorMessage }}
                             </v-alert> -->
-                            <v-btn type="submit" color="primary" block>Cadastrar</v-btn>
+                            <v-btn type="submit" color="primary" block tabindex="10" tittle="Cadastrar">Cadastrar</v-btn>
                         </v-form>
                     </v-card-text>
 

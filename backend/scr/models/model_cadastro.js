@@ -16,8 +16,10 @@ async function insereNovoUsuario(nome, documento, email, senha, confirmarSenha, 
     if(senha != confirmarSenha){
       return {ok: false, err_msg: "Senhas não coincidem"}
     }
-
     const novoUsuario = { email: email, nome: nome, documento: documento, senha: senha, tipo: tipo};
+    if(tipo == 2 ){
+      novoUsuario.curriculo = "";
+    }
     await db.collection('users').insertOne(novoUsuario, function (err, result) {
     }).catch((err) => {
       console.log(err);

@@ -15,6 +15,15 @@ async function verificaEmailDuplicado(email){
     
 }
 
+async function User_curriculo(email){
+    
+    const usuarioExistente = await db.collection('users').findOne({ email: email });
+    if (usuarioExistente.curriculo != '')
+        return true
+    return false
+    
+}
+
 async function getNextId(sequenceName){
     var ret = await db.collection('counters').findOneAndUpdate(
          { _id: sequenceName },
@@ -28,5 +37,6 @@ async function getNextId(sequenceName){
 module.exports = {
     validaEmail,
     verificaEmailDuplicado,
-    getNextId
+    getNextId,
+    User_curriculo
 };

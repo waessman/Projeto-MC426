@@ -6,7 +6,7 @@ const { ObjectId } = require('mongodb');
 async function criar(nome, descricao, link_externo, requisitos, local, contato, empresa) {
     const novoProcesso = {
         nome: nome, empresa_id: empresa, descricao: descricao, link_externo: link_externo, requisitos: requisitos, local: local, contato: contato,
-        status: 'Aberto'
+        status: 'Aberto', candidaturas: 0
     };
     novoProcesso._id = await validation.getNextId('processId');
     await db.collection('process').insertOne(novoProcesso, function (err, result) {
@@ -104,15 +104,23 @@ async function processos_filtro(filtro) {
     }
 }
 
-async function candidatar(usuario, vaga) {
+async function candidatar(usuario, vaga, email) {
     const result = await db.collection('process_candidatura').find({ user: usuario, process: vaga }).toArray();
     if (result.length <= 0) {
+        const curriculo_validation = await validation.User_curriculo(email);
+        if (curriculo_validation == true){
+        const objectId = new ObjectId(vaga);
+        await db.collection('process').findOneAndUpdate({ _id: objectId }, { $inc: { candidaturas: 1 } });
         const result2 = await db.collection('process_candidatura').insertOne({ user: usuario, process: vaga }, function (err, result) {
         }).catch((err) => {
             console.log(err);
             return { ok: false, err_msg: "Erro interno" }
         });
         return { ok: true, result: result2 }
+    }
+    else{
+        return { ok: false, err_msg: "Preencha o link para o seu curriculo!" }
+    }
     }
 
     return { ok: true, result: result[0] }
