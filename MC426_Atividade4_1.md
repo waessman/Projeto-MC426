@@ -9,7 +9,7 @@
 
 - **Usuários Controller:** Permite ao usuário ver e editar informações de cadastro
 
-- **Processos Controller:** Permite ao usuário criar, atualizar, remover e pesquisar por processo de vagas e informações sobre como candidatos a vaga, filtrar por ativos dentre outros
+- **Processos Controller:** Permite ao usuário criar, atualizar, remover, pesquisar por processo de vagas de empregos e informações sobre como candidatos a vaga (usuário tipo empresa) Permite também pesquisar vagas de empregos, se candidatar a uma vaga (usuário tipo pessoa física).
 
 - **Login Model:** Oferece funcionalidades para o fluxo de login, validando na base de dados as informações de tentativa de login
 
