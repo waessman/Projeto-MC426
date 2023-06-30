@@ -1,5 +1,5 @@
 # **Diagrama C3 - Nivel 3 (Componentes)**
-<img src = "docs\atv41.png">
+<img src = "docs/atividade4.1_3.png">
 
 # **Principais componentes da Aplicação**
 
