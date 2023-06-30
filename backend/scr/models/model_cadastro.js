@@ -1,3 +1,4 @@
+const mensagens = require('../helpers/messages');
 
 async function insereNovoUsuario(nome, documento, email, senha, confirmarSenha, tipo){
     const client = require('../configs/db.configs');
@@ -6,15 +7,15 @@ async function insereNovoUsuario(nome, documento, email, senha, confirmarSenha, 
     var db = client.db(process.env.DB_NAME);
 
     if(!validaEmail(email)){
-      return {ok: false, err_msg: "E-mail inválido"}
+      return {ok: false, err_msg: mensagens.emailInvalid}
     }
   
     if(await verificaEmailDuplicado(email)){
-      return {ok: false, err_msg: "E-mail já cadastrado"}
+      return {ok: false, err_msg: mensagens.emailAlreadyUsed}
     }
   
     if(senha != confirmarSenha){
-      return {ok: false, err_msg: "Senhas não coincidem"}
+      return {ok: false, err_msg: mensagens.passwordsNotMatch}
     }
     const novoUsuario = { email: email, nome: nome, documento: documento, senha: senha, tipo: tipo};
     if(tipo == 2 ){
@@ -23,7 +24,7 @@ async function insereNovoUsuario(nome, documento, email, senha, confirmarSenha, 
     await db.collection('users').insertOne(novoUsuario, function (err, result) {
     }).catch((err) => {
       console.log(err);
-      return {ok: false, err_msg: "Erro interno"}
+      return {ok: false, err_msg: mensagens.genericError}
     });
     return {ok: true}
     

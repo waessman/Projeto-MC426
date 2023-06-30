@@ -2,13 +2,14 @@ const client = require('../configs/db.configs');
 var db = client.db(process.env.DB_NAME);
 var validation = require('../validation/validations');
 const { ObjectId } = require('mongodb');
+const mensagens = require('../helpers/messages');
 
 async function user_by_id(email) {
     const result = await db.collection('users').find({ email: email }).toArray();
     if (result)
         return { ok: true, result: result }
     else
-        return { ok: false, message: 'Usuario não encontrado' };
+        return { ok: false, message: mensagens.userNotFound };
 }
 
 async function edit_user(email, nome, documento, curriculo) {
@@ -20,7 +21,7 @@ async function edit_user(email, nome, documento, curriculo) {
     if (result.value)
         return { ok: true }
     else
-        return { ok: false, message: 'Usuario não encontrado' };
+        return { ok: false, message: mensagens.userNotFound };
 }
 
 module.exports = {

@@ -1,5 +1,6 @@
 const client = require('../configs/db.configs');
 var db = client.db(process.env.DB_NAME);
+const mensagens = require('../helpers/messages');
 
 async function login( email, senha){
     const query = { "email": email };
@@ -8,7 +9,7 @@ async function login( email, senha){
       
 
       return {ok: false,
-              err_msg: 'Usuário não encontrado'}
+              err_msg: mensagens.userNotFound}
     }
     if (senha == result[0].senha){
       return {ok: true,
@@ -16,7 +17,7 @@ async function login( email, senha){
     }
     else{
       return {ok: false,
-        err_msg: 'Senha não corresponde'}
+        err_msg: mensagens.passwordsNotMatch}
     }
 
     
@@ -28,7 +29,7 @@ async function get_usertype( email){
   const result = await db.collection('users').find(query).toArray();
   if (result === undefined || result.length ==0){
     return {ok: false,
-            err_msg: 'Usuário não encontrado'}
+            err_msg: mensagens.userNotFound}
   }
   else{
     return {ok: true,
