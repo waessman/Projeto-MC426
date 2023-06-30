@@ -68,7 +68,28 @@ describe('Teste de Login', function() {
           const ok = res.body.ok;
           expect(ok).to.be.equal(false);
           const msg = res.body.err_msg
-          expect(msg).to.be.equal("Senha não corresponde");
+          expect(msg).to.be.equal("Senhas não coincidem");
+          done();
+        });
+    }).timeout(10000);
+
+    it('Deve retornar erro ao tentar logar com uma email incorreto', function(done) {
+      
+      const usuario = {
+        email: 'joao.sila@teste.com',
+        senha: 'senhateste',
+      };
+  
+      chai.request('http://localhost:8080/')
+        .post('login')
+        .send(usuario)
+        .end(function(err, res) {
+          const status = res.status;
+          expect(status).to.be.equal(404);
+          const ok = res.body.ok;
+          expect(ok).to.be.equal(false);
+          const msg = res.body.err_msg
+          expect(msg).to.be.equal("Usuário não encontrado");
           done();
         });
     }).timeout(10000);
