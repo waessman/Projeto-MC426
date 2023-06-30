@@ -2,6 +2,7 @@ const client = require('../configs/db.configs');
 var db = client.db(process.env.DB_NAME);
 var validation = require('../validation/validations');
 const { ObjectId } = require('mongodb');
+const mensagens = require('../helpers/messages');
 
 async function criar(nome, descricao, link_externo, requisitos, local, contato, empresa) {
     const novoProcesso = {
@@ -12,7 +13,7 @@ async function criar(nome, descricao, link_externo, requisitos, local, contato, 
     await db.collection('process').insertOne(novoProcesso, function (err, result) {
     }).catch((err) => {
         console.log(err);
-        return { ok: false, err_msg: "Erro interno" }
+        return { ok: false, err_msg: mensagens.genericError }
     });
     return { ok: true }
 
@@ -41,11 +42,11 @@ async function fechar(id) {
             return { ok: true, processo: processoAtualizado };
 
         } else {
-            return { ok: false, message: 'Processo não encontrado' };
+            return { ok: false, message: mensagens.processNotFound };
         }
     } catch (error) {
-        console.log('Erro ao fechar o processo:', error);
-        return { ok: false, message: 'Erro ao fechar o processo' };
+        console.log(mensagens.errorEditingProcess, error);
+        return { ok: false, message: mensagens.errorEditingProcess };
     }
 }
 
@@ -82,7 +83,7 @@ async function editar(id, nome, descricao, link_externo, requisitos, local, cont
     if (result.value)
         return { ok: true }
     else
-        return { ok: false, message: 'Processo não encontrado' };
+        return { ok: false, message: mensagens.processNotFound };
 }
 
 
@@ -114,12 +115,12 @@ async function candidatar(usuario, vaga, email) {
         const result2 = await db.collection('process_candidatura').insertOne({ user: usuario, process: vaga }, function (err, result) {
         }).catch((err) => {
             console.log(err);
-            return { ok: false, err_msg: "Erro interno" }
+            return { ok: false, err_msg: mensagens.genericError}
         });
         return { ok: true, result: result2 }
     }
     else{
-        return { ok: false, err_msg: "Preencha o link para o seu curriculo!" }
+        return { ok: false, err_msg: mensagens.requireUserCurriculum }
     }
     }
 
@@ -135,7 +136,7 @@ async function vagasCandidato(candidato) {
         ({ _id: { $in: processIds } }).toArray();
         return { ok: true, result: processess }
     }
-    return {ok: false, result: "Nenhuma vaga encontrada"}
+    return {ok: false, result: mensagens.noProcessFound}
 }
 
 async function candidatos(processo) {
@@ -147,7 +148,7 @@ async function candidatos(processo) {
         return { ok: true, result: users }
     }
 
-    return { ok: false, message: 'Nenhum candidato encontrado' }
+    return { ok: false, message: mensagens.noCandidatesFound }
 
 }
 module.exports = {
