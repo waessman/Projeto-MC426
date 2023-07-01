@@ -42,11 +42,34 @@ describe('Teste de cadastro de usuarios comuns', function() {
         });
     }).timeout(10000);
 
-    it('Deve retornar erro se o e-mail for inválido', function(done) {
+    it('Deve retornar erro se o e-mail for não ter @', function(done) {
       const usuario = {
         nome: 'João da Silva',
         documento: '1111111111',
         email: 'joao.silva.com',
+        senha: 'senhateste',
+        confirmarSenha: 'senhateste'
+      };
+  
+      chai.request('http://localhost:8080/')
+        .post('usuario/cadastro')
+        .send(usuario)
+        .end(function(err, res) {
+          const status = res.status;
+          expect(status).to.be.equal(404);
+          const ok = res.body.ok;
+          expect(ok).to.be.equal(false);
+          const msg = res.body.err_msg
+          expect(msg).to.be.equal("E-mail inválido");
+          done();
+        });
+    }).timeout(10000);
+
+    it('Deve retornar erro se o e-mail for vazio', function(done) {
+      const usuario = {
+        nome: 'João da Silva',
+        documento: '1111111111',
+        email: ' ',
         senha: 'senhateste',
         confirmarSenha: 'senhateste'
       };
