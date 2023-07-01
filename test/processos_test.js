@@ -18,15 +18,15 @@ function fazerLogin(login) {
   });
 }
 
-describe('Teste de criação de processos', function() {
+describe('Teste de criação de processos', function () {
   let db;
   // conecta com o bd
-  before((done) =>{
+  before((done) => {
     const client = new MongoClient('mongodb+srv://inclusihire:MC426_inclusihire@cluster0.qmmz34t.mongodb.net/testy', { useNewUrlParser: true, useUnifiedTopology: true });
     db = client.db('inclusihire_test');
     done();
   })
-  
+
   beforeEach(async function () {
     if (this.currentTest.parent.tests.indexOf(this.currentTest) === 0) {
       // limpa tabelas process e user antes do primeiro teste
@@ -54,97 +54,178 @@ describe('Teste de criação de processos', function() {
     }
   });
 
-    it('Deve criar um novo processo como empresa', function(done) {
-      const processo = {
-        nome: 'Processo poggers',
-        descricao: 'essa vaga é muito boa e tal',
-        link_externo: 'https://site.empresa.org',
-        requisitos: 'passar em MC558',
-        local: 'Itaquaquecetuba',
-        contato: '(99)99999-9999',
-        userInfo: 'empresa@hotmail.com'
-      };
+  it('Deve retornar dois processos ao tentar consultar todos processos como empresa', function (done) {
+    const processo = {
+      nome: 'Processo poggers',
+      descricao: 'essa vaga é muito boa e tal',
+      link_externo: 'https://site.empresa.org',
+      requisitos: 'passar em MC558',
+      local: 'Itaquaquecetuba',
+      contato: '(99)99999-9999',
+      userInfo: 'empresa@hotmail.com'
+    };
 
-      const login = {
-        email: 'empresa@hotmail.com',
-        senha: 'senhateste'
-      }
+    const processo2 = {
+      nome: 'Processo poggers 2',
+      descricao: 'essa vaga é muito boa e tal',
+      link_externo: 'https://site.empresa.org',
+      requisitos: 'passar em MC558',
+      local: 'Itaquaquecetuba',
+      contato: '(99)99999-9999',
+      userInfo: 'empresa@hotmail.com'
+    };
 
-      // faz login como empresa
-      fazerLogin(login)
-        .then(token =>{
-            // tenta criar processo
-            chai.request('http://localhost:8080/')
-            .post('empresa/novo_processo')
-            .set('authorization', token)
-            .send(processo)
-            .end(function(err, res) {
-              const status = res.status;
-              expect(status).to.be.equal(200);
-              const ok = res.body.ok;
-              expect(ok).to.be.equal(true);
-              done();
-            });
-        })
-    }).timeout(10000);
+    const login = {
+      email: 'empresa@hotmail.com',
+      senha: 'senhateste'
+    }
 
-    it('Deve retornar erro ao tentar criar processo como usuário', function(done) {
-        const processo = {
-          nome: 'Processo poggers',
-          descricao: 'essa vaga é muito boa e tal',
-          link_externo: 'https://site.empresa.org',
-          requisitos: 'passar em MC558',
-          local: 'Itaquaquecetuba',
-          contato: '(99)99999-9999',
-          userInfo: 'empresa@hotmail.com'
-        };
-    
-        const login = {
-          email: 'usuario@hotmail.com',
-          senha: 'senhateste'
-        }
+    fazerLogin(login)
+      .then(token => {
+        // Tenta criar processo
+        chai.request('http://localhost:8080')
+          .post('/empresa/novo_processo')
+          .set('authorization', token)
+          .send(processo)
+          .end(function (err, res) {
+            const status = res.status;
+            expect(status).to.be.equal(200);
+            const ok = res.body.ok;
+            expect(ok).to.be.equal(true);
+          });
+      })
+      .then(() => {
+        // Tenta obter processos
+        return fazerLogin(login);
+      })
+      .then(token => {
+        // Tenta criar processo
+        chai.request('http://localhost:8080')
+          .post('/empresa/novo_processo')
+          .set('authorization', token)
+          .send(processo2)
+          .end(function (err, res) {
+            const status = res.status;
+            expect(status).to.be.equal(200);
+            const ok = res.body.ok;
+            expect(ok).to.be.equal(true);
+          });
+      })
+      .then(() => {
+        // Tenta obter processos
+        return fazerLogin(login);
+      })
+      .then(token => {
+        chai.request('http://localhost:8080')
+          .get('/empresa/processos')
+          .set('authorization', token)
+          .end(function (err, res) {
+            const status = res.status;
+            expect(status).to.be.equal(200);
+            const ok = res.body.ok;
+            expect(ok).to.be.equal(true);
+            const processos = res.body.processos;
+            expect(processos).to.be.length(2)
+            done();
+          });
+      });
+  }).timeout(10000);
+
+
+  it('Deve criar um novo processo como empresa', function (done) {
+    const processo = {
+      nome: 'Processo poggers',
+      descricao: 'essa vaga é muito boa e tal',
+      link_externo: 'https://site.empresa.org',
+      requisitos: 'passar em MC558',
+      local: 'Itaquaquecetuba',
+      contato: '(99)99999-9999',
+      userInfo: 'empresa@hotmail.com'
+    };
+
+    const login = {
+      email: 'empresa@hotmail.com',
+      senha: 'senhateste'
+    }
+
+    // faz login como empresa
+    fazerLogin(login)
+      .then(token => {
+        // tenta criar processo
+        chai.request('http://localhost:8080/')
+          .post('empresa/novo_processo')
+          .set('authorization', token)
+          .send(processo)
+          .end(function (err, res) {
+            const status = res.status;
+            expect(status).to.be.equal(200);
+            const ok = res.body.ok;
+            expect(ok).to.be.equal(true);
+            done();
+          });
+      })
+  }).timeout(10000);
+
+
   
-        // faz login como empresa
-        fazerLogin(login)
-          .then(token =>{
-              // tenta criar processo
-              chai.request('http://localhost:8080/')
-              .post('empresa/novo_processo')
-              .set('authorization', token)
-              .send(processo)
-              .end(function(err, res) {
-                const status = res.status;
-                expect(status).to.be.equal(404);
-                const ok = res.body.ok;
-                expect(ok).to.be.equal(false);
-                const err_msg = res.body.err_msg;
-                expect(err_msg).to.be.equal('Usuário não tem permissão.')
-                done();
-              });
-          })
-    }).timeout(10000);
-    
-    it('Deve retornar erro ao tentar criar processo sem estar logado', function(done) {
-      const processo = {
-        nome: 'Processo poggers',
-        descricao: 'essa vaga é muito boa e tal',
-        link_externo: 'https://site.empresa.org',
-        requisitos: 'passar em MC558',
-        local: 'Itaquaquecetuba',
-        contato: '(99)99999-9999',
-        userInfo: 'empresa@hotmail.com'
-      };
-  
-      // tenta criar processo
-      chai.request('http://localhost:8080/')
+
+  it('Deve retornar erro ao tentar criar processo como usuário', function (done) {
+    const processo = {
+      nome: 'Processo poggers',
+      descricao: 'essa vaga é muito boa e tal',
+      link_externo: 'https://site.empresa.org',
+      requisitos: 'passar em MC558',
+      local: 'Itaquaquecetuba',
+      contato: '(99)99999-9999',
+      userInfo: 'empresa@hotmail.com'
+    };
+
+    const login = {
+      email: 'usuario@hotmail.com',
+      senha: 'senhateste'
+    }
+
+    // faz login como empresa
+    fazerLogin(login)
+      .then(token => {
+        // tenta criar processo
+        chai.request('http://localhost:8080/')
+          .post('empresa/novo_processo')
+          .set('authorization', token)
+          .send(processo)
+          .end(function (err, res) {
+            const status = res.status;
+            expect(status).to.be.equal(404);
+            const ok = res.body.ok;
+            expect(ok).to.be.equal(false);
+            const err_msg = res.body.err_msg;
+            expect(err_msg).to.be.equal('Usuário não tem permissão.')
+            done();
+          });
+      })
+  }).timeout(10000);
+
+  it('Deve retornar erro ao tentar criar processo sem estar logado', function (done) {
+    const processo = {
+      nome: 'Processo poggers',
+      descricao: 'essa vaga é muito boa e tal',
+      link_externo: 'https://site.empresa.org',
+      requisitos: 'passar em MC558',
+      local: 'Itaquaquecetuba',
+      contato: '(99)99999-9999',
+      userInfo: 'empresa@hotmail.com'
+    };
+
+    // tenta criar processo
+    chai.request('http://localhost:8080/')
       .post('empresa/novo_processo')
       .send(processo)
-      .end(function(err, res) {
+      .end(function (err, res) {
         const status = res.status;
         expect(status).to.be.equal(401);
         const err_msg = res.body.msg;
         expect(err_msg).to.be.equal('Invalid Token')
         done();
       });
-    }).timeout(10000);
+  }).timeout(10000);
 });
