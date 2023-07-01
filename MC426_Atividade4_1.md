@@ -17,7 +17,7 @@
 
 - **Usuários Model:** Oferece funcionalidades para o fluxo de edição de informações do usuário, atualizando e buscando na base de dados as informações do usuário atual.
 
-- **Processos Model:** Oferece funcionalidades para o fluxo de visualização de processos, criando, removendo, atualizando e buscando informações sobre os processos em aberto na base de dados. Também possibilita que empresas consultem informações a respeito de seus próprios processos já encerrados.
+- **Processos Model:** Oferece funcionalidades para o fluxo de visualização de processos, criando, removendo, atualizando e buscando informações sobre os processos em aberto na base de dados, como a listagem de candidatos que se candidataram à vaga, e seus respectivos currículos. Também possibilita que empresas consultem informações a respeito de seus próprios processos já encerrados, assim como encerrar processos que estejam em aberto.
 
 # **Estilos Arquiteturais Utilizados**
 
@@ -25,4 +25,6 @@
 A partir de métodos HTTP é possível manipular recursos da aplicação, por exemplo: podemos fazer uma requisição de POST /usuario/cadastro ou /empresa/cadastro para inserir novos usuários ou empresas.
 
 - **MVC (Model- View - Controller)**
-Na aplicação web, as interfaces do Vue.js utilizam desse estilo para gerar interfaces gráficas no browser do usuário.
+Em nosso projeto, utilizamos o estilo de arquitetura MVC para fazer a elencagem do backend com o frontend. As models e controllers foram criadas em node.js, sendo responsáveis por lidar com a lógica de negócio das funcionalidades, onde as models representavam os dados e suas operações, enquanto as controllers eram responsáveis por receber as requisições do cliente. As views por outro lado, foram implementadas em Vue.js, responsáveis por construir a camada de visualização, ou seja, a interface do usuário.
+Essa abordagem facilitou muito o desenvolvimento do projeto como um todo, pois permitiu uma clara separação de responsabilidades entre backend e frontend, facilitando muito também a sua manutenção.
+
