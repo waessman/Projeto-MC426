@@ -5,7 +5,9 @@ async function Criar_processo(req, res){
     const result_tipo = await loginModel.get_usertype(req.userInfo);
     if(result_tipo.ok){
         if(result_tipo.tipo == 1){
-            const result = await processoModel.criar(req.body.nome, req.body.descricao, req.body.link_externo, req.body.requisitos, req.body.local, req.body.contato, req.userInfo);
+            console.log(req.body)
+            const processo = {nome: req.body.nome, empresa_id: req.userInfo, descricao: req.body.descricao, link_externo: req.body.link, requisitos: req.body.requisitos, local: req.body.local, contato: req.body.contato};
+            const result = await processoModel.criar(processo);
             return res.status(200).json(result);}
         else{
             return res.status(404).json({ok: false, err_msg: "Usuário não tem permissão."});

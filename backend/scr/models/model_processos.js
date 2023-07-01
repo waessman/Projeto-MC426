@@ -4,11 +4,10 @@ var validation = require('../validation/validations');
 const { ObjectId } = require('mongodb');
 const mensagens = require('../helpers/messages');
 
-async function criar(nome, descricao, link_externo, requisitos, local, contato, empresa) {
-    const novoProcesso = {
-        nome: nome, empresa_id: empresa, descricao: descricao, link_externo: link_externo, requisitos: requisitos, local: local, contato: contato,
-        status: 'Aberto', candidaturas: 0
-    };
+async function criar(processo) {
+    const novoProcesso = processo;
+    novoProcesso.status = 'Aberto';
+    novoProcesso.candidaturas = 0;
     novoProcesso._id = await validation.getNextId('processId');
     await db.collection('process').insertOne(novoProcesso, function (err, result) {
     }).catch((err) => {
